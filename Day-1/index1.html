@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>String & Number Processor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 300px;
+        }
+        .output {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Reverse String</h2>
+    <input type="text" id="stringInput" placeholder="Enter a string">
+    <br>
+    <button onclick="reverseString()">Reverse</button>
+    <div class="output" id="reverseOutput"></div>
+
+    <hr>
+
+    <h2>Filter Even Numbers</h2>
+    <input type="text" id="numberInput" placeholder="Enter numbers (comma-separated)">
+    <br>
+    <button onclick="filterEvenNumbers()">Filter Even</button>
+    <div class="output" id="evenOutput"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

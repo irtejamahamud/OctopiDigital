@@ -1,40 +1,39 @@
-let a =10;
-let b =20;
+let a = 10;
+let b = 20;
 let c;
-c = a + b; 
-console.log("Addition:", c);
-c = a - b; 
-console.log("Subtraction:", c);
-c = a * b; 
-console.log("Multiplication:", c);
-c = a / b; // Division
-console.log("Division:", c);
-c = a % b; // Modulus
-console.log("Modulus:", c);
-c = a ** b; // Exponentiation
-console.log("Exponentiation:", c);
-c = a++; // Post-increment
+c = a + b;
+console.log("Add:", c);
+c = a - b;
+console.log("Sub:", c);
+c = a * b;
+console.log("Mul:", c);
+c = a / b;
+console.log("Div:", c);
+c = a % b;
+console.log("Mod:", c);
+c = a ** b;
+console.log("Expo:", c);
+c = a++;
 console.log("Post-increment:", c);
-c = ++a; // Pre-increment
+c = ++a;
 console.log("Pre-increment:", c);
-c = a--; // Post-decrement      
+c = a--;
 console.log("Post-decrement:", c);
-c = --a; // Pre-decrement
+c = --a;
 console.log("Pre-decrement:", c);
-c = a == b; // Equality
+c = a == b;
 console.log("Equality:", c);
-c = a != b; // Inequality
+c = a != b;
 console.log("Inequality:", c);
-c = a === b; // Strict equality
+c = a === b;
 console.log("Strict Equality:", c);
-c = a !== b; // Strict inequality
+c = a !== b;
 console.log("Strict Inequality:", c);
-c = a > b; // Greater than
+c = a > b;
 console.log("Greater than:", c);
-c = a < b; // Less than
+c = a < b;
 console.log("Less than:", c);
-c = a >= b; // Greater than or equal to
+c = a >= b;
 console.log("Greater than or equal to:", c);
-c = a <= b; // Less than or equal to
+c = a <= b;
 console.log("Less than or equal to:", c);
-
