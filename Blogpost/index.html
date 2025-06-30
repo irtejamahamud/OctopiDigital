@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Cards</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h1>Posts</h1>
+
+  <div class="controls">
+    <input type="text" id="search-input" placeholder="Search by title..." />
+    
+    <select id="user-filter">
+      <option value="">All Users</option>
+      <option value="1">User 1</option>
+      <option value="2">User 2</option>
+      <option value="10">User 10</option>
+    </select>
+
+    <button onclick="sortByTitle()">Sort by Title</button>
+    <button onclick="sortById()">Sort by Post ID</button>
+  </div>
+
+  <div id="posts-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
