@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Practice</title>
+  <style>
+    .highlight {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Section -->
+  <h1 id="title">Title</h1>
+  <button onclick="changeTitle()">Change the Title</button>
+
+  <hr>
+
+  <!-- Class Selector Section -->
+  <p class="highlight">This is paragraph 1 (highlight)</p>
+  <p class="highlight">This is paragraph 2 (highlight)</p>
+  <p>This is paragraph 3 (no class)</p>
+  <button onclick="changeColor()">Change Color of Highlighted Text</button>
+
+  <hr>
+
+  <!-- Tag Selector Section -->
+  <p>This is paragraph 1</p>
+  <p>This is paragraph 2</p>
+  <p>This is paragraph 3</p>
+  <button onclick="makeBold()">Make All Paragraphs Bold & Green</button>
+
+  <script>
+    function changeTitle() {
+      document.getElementById("title").textContent = "Title Changed";
+    }
+
+    function changeColor() {
+      const elements = document.getElementsByClassName("highlight");
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.color = "blue";
+      }
+    }
+
+    function makeBold() {
+      const paragraphs = document.getElementsByTagName("p");
+      for (let i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].style.color = "green";
+        paragraphs[i].style.fontWeight = "bold"; // ✅ Fixed typo (was frontWeight)
+      }
+    }
+  </script>
+
+</body>
+</html>
