@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="https://img.icons8.com/?size=96&id=cXYUoqPdbtbr&format=png" type="image/x-icon"/>
   <title>Post Cards</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>Posts</h1>
+  <h1>Fetched Blog Posts</h1>
 
 <div class="controls">
   <input type="text" id="search-input" placeholder="Search by title..." />
   <input type="number" id="search-user-id" placeholder="Search by User ID..." />
   <input type="number" id="search-post-id" placeholder="Search by Post ID..." />
+  <input type="text" id="smart-search" placeholder="Search by Title or User ID..." />
 
   <button onclick="sortByTitle()">Sort by Title</button>
   <button onclick="sortById()">Sort by Post ID</button>

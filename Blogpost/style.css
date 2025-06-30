@@ -11,17 +11,45 @@ h1 {
 }
 
 .controls {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
-.controls input,
-.controls select,
-.controls button {
-  margin: 5px;
-  padding: 8px 12px;
+.controls input[type="text"],
+.controls input[type="number"],
+.controls select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
   font-size: 14px;
+  width: 200px;
+  transition: 0.3s ease;
 }
+
+.controls input:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 4px rgba(0, 122, 204, 0.3);
+}
+
+.controls button {
+  padding: 10px 16px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #005c99;
+}
+
 
 #posts-container {
   display: grid;
@@ -51,12 +79,4 @@ h1 {
   font-size: 14px;
   color: #555;
 }
-.controls input,
-.controls select,
-.controls button {
-  margin: 5px;
-  padding: 8px 12px;
-  font-size: 14px;
-  width: 180px;
-  max-width: 100%;
-}
+

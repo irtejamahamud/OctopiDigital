@@ -53,6 +53,19 @@ function applyFilters() {
   displayPosts(filtered);
 }
 
+document.getElementById("smart-search").addEventListener("input", () => {
+  const query = document.getElementById("smart-search").value.toLowerCase().trim();
+  const filtered = postsArray.filter(post => {
+    return (
+      post.title.toLowerCase().includes(query) ||
+      post.userId.toString() === query
+    );
+  });
+
+  displayPosts(filtered);
+});
+
+
 function resetFilters() {
   document.getElementById("search-input").value = "";
   document.getElementById("search-user-id").value = "";
