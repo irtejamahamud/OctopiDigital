@@ -9,19 +9,17 @@
 <body>
   <h1>Posts</h1>
 
-  <div class="controls">
-    <input type="text" id="search-input" placeholder="Search by title..." />
-    
-    <select id="user-filter">
-      <option value="">All Users</option>
-      <option value="1">User 1</option>
-      <option value="2">User 2</option>
-      <option value="10">User 10</option>
-    </select>
+<div class="controls">
+  <input type="text" id="search-input" placeholder="Search by title..." />
+  <input type="number" id="search-user-id" placeholder="Search by User ID..." />
+  <input type="number" id="search-post-id" placeholder="Search by Post ID..." />
 
-    <button onclick="sortByTitle()">Sort by Title</button>
-    <button onclick="sortById()">Sort by Post ID</button>
-  </div>
+  <button onclick="sortByTitle()">Sort by Title</button>
+  <button onclick="sortById()">Sort by Post ID</button>
+  <button onclick="sortByUserId()">Sort by User ID</button>
+  <button onclick="resetFilters()">Reset Filters</button>
+</div>
+
 
   <div id="posts-container"></div>
 
