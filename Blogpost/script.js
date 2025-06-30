@@ -26,22 +26,16 @@ function displayPosts(posts) {
   });
 }
 
-document.getElementById("search-input").addEventListener("input", applyFilters);
+document.getElementById("srctitle").addEventListener("input", applyFilters);
 
-document
-  .getElementById("search-user-id")
-  .addEventListener("input", applyFilters);
+document.getElementById("src_uid").addEventListener("input", applyFilters);
 
-document
-  .getElementById("search-post-id")
-  .addEventListener("input", applyFilters);
+document.getElementById("src_pid").addEventListener("input", applyFilters);
 
 function applyFilters() {
-  const titleQuery = document
-    .getElementById("search-input")
-    .value.toLowerCase();
-  const userIdQuery = document.getElementById("search-user-id").value;
-  const postIdQuery = document.getElementById("search-post-id").value;
+  const titleQuery = document.getElementById("srctitle").value.toLowerCase();
+  const userIdQuery = document.getElementById("src_uid").value;
+  const postIdQuery = document.getElementById("src_pid").value;
 
   const filtered = postsArray.filter((post) => {
     const matchTitle = post.title.toLowerCase().includes(titleQuery);
@@ -53,9 +47,9 @@ function applyFilters() {
   displayPosts(filtered);
 }
 
-document.getElementById("smart-search").addEventListener("input", () => {
-  const query = document.getElementById("smart-search").value.toLowerCase().trim();
-  const filtered = postsArray.filter(post => {
+document.getElementById("srcbyboth").addEventListener("input", () => {
+  const query = document.getElementById("srcbyboth").value.toLowerCase().trim();
+  const filtered = postsArray.filter((post) => {
     return (
       post.title.toLowerCase().includes(query) ||
       post.userId.toString() === query
@@ -65,11 +59,11 @@ document.getElementById("smart-search").addEventListener("input", () => {
   displayPosts(filtered);
 });
 
-
 function resetFilters() {
-  document.getElementById("search-input").value = "";
-  document.getElementById("search-user-id").value = "";
-  document.getElementById("search-post-id").value = "";
+  document.getElementById("srctitle").value = "";
+  document.getElementById("src_uid").value = "";
+  document.getElementById("src_pid").value = "";
+  document.getElementById("srcbyboth").value = "";
   displayPosts(postsArray);
 }
 
