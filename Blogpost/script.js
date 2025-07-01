@@ -17,10 +17,24 @@ function displayPosts(posts) {
     card.classList.add("card");
 
     card.innerHTML = `
-      <h3>${post.title}</h3>
-      <p>${post.body}</p>
-      <small><strong>User ID:</strong> ${post.userId} | <strong>Post ID:</strong> ${post.id}</small>
-    `;
+  <button class="eye-btn" onclick='openModal(${JSON.stringify(post)})'>
+    <img src="eye-svgrepo-com.svg" alt="View" class="eye-icon" />
+  </button>
+
+  <div class="card-content">
+    <h3>${post.title}</h3>
+    <p>${post.body.slice(0, 20)}...</p>
+  </div>
+
+  <div class="card-footer">
+    <div class="id-meta">
+  <span><label>User:</label> ${post.userId}</span>
+  <span><label>Post:</label> ${post.id}</span>
+</div>
+
+    <a href="view-post.html?id=${post.id}" class="read-more-btn">Read More</a>
+  </div>
+`;
 
     container.appendChild(card);
   });
@@ -73,11 +87,31 @@ function sortByTitle() {
 }
 
 function sortById() {
-  const sorted = [...postsArray].sort((a, b) => a.userId - b.userId);
+  const sorted = [...postsArray].sort((a, b) => a.id - b.id);
   displayPosts(sorted);
 }
 
 function sortByUserId() {
-  const sorted = [...postsArray].sort((a, b) => a.id - b.id);
+  const sorted = [...postsArray].sort((a, b) => a.userId - b.userId);
   displayPosts(sorted);
 }
+
+function openModal(post) {
+  document.getElementById("modal-title").textContent = post.title;
+  document.getElementById("modal-body").textContent = post.body;
+  document.getElementById(
+    "modal-meta"
+  ).textContent = `User ID: ${post.userId} | Post ID: ${post.id}`;
+  document.getElementById("modal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+window.onclick = function (event) {
+  const modal = document.getElementById("modal");
+  if (event.target == modal) {
+    closeModal();
+  }
+};
