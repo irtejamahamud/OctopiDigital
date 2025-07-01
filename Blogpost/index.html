@@ -17,7 +17,12 @@
 
       <div class="controls">
         <div class="search-row">
-          <input type="text" id="srctitle" placeholder="Search by title..." />
+          <div class="search-wrapper">
+  <input type="text" id="srctitle" placeholder="Search by title..." />
+  <ul id="title-suggestions" class="suggestions-box"></ul>
+</div>
+
+
           <input
             type="number"
             id="src_uid"
@@ -53,8 +58,14 @@
     <h2 id="modal-title"></h2>
     <p id="modal-body"></p>
     <div id="modal-meta"></div>
+
+    <div id="comments-section">
+      <h3>Comments</h3>
+      <ul id="modal-comments"></ul>
+    </div>
   </div>
 </div>
+
 
 
     <script src="script.js"></script>

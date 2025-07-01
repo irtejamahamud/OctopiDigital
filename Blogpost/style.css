@@ -246,6 +246,60 @@ h1 {
 .read-more-btn:hover {
   background-color: #1e7e34;
 }
+#comments-section {
+  margin-top: 25px;
+}
 
+#comments-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #007acc;
+}
 
+#modal-comments {
+  list-style: none;
+  padding-left: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  margin-top: 10px;
+}
 
+#modal-comments li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.search-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: none;
+  z-index: 999;
+  max-height: 160px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.suggestions-box li {
+  all: unset;
+  display: block;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.suggestions-box li:hover {
+  background: #f2f2f2;
+}

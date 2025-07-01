@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Post Details</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .post-container {
-      max-width: 700px;
-      margin: 50px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Post Details</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="poststyle.css" />
+  </head>
+  <body>
+    <div class="post-container">
+      <h1 id="post-title">Loading...</h1>
+      <p id="post-body"></p>
+      <div class="post-meta" id="post-meta"></div>
 
-    .post-container h1 {
-      color: #007acc;
-    }
+      <div id="comments-section">
+        <h3>Comments</h3>
+        <ul id="comments-list">
+          <li>Loading comments...</li>
+        </ul>
+      </div>
 
-    .post-container p {
-      font-size: 16px;
-      color: #444;
-      line-height: 1.6;
-    }
+      <a href="index.html" class="back-link">← Back to all posts</a>
+    </div>
 
-    .post-meta {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #777;
-    }
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get("id");
 
-    .back-link {
-      display: inline-block;
-      margin-top: 20px;
-      color: #007acc;
-      text-decoration: none;
-      font-weight: bold;
-    }
+      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+        .then((res) => res.json())
+        .then((post) => {
+          document.getElementById("post-title").textContent = post.title;
+          document.getElementById("post-body").textContent = post.body;
+          document.getElementById(
+            "post-meta"
+          ).textContent = `User ID: ${post.userId} | Post ID: ${post.id}`;
+        })
+        .catch((err) => {
+          document.getElementById("post-title").textContent = "Post not found.";
+          document.getElementById("post-body").textContent = "";
+          document.getElementById("post-meta").textContent = "";
+        });
 
-    .back-link:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="post-container">
-    <h1 id="post-title">Loading...</h1>
-    <p id="post-body"></p>
-    <div class="post-meta" id="post-meta"></div>
-    <a href="index.html" class="back-link">← Back to all posts</a>
-  </div>
+      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+        .then((res) => res.json())
+        .then((comments) => {
+          const commentList = document.getElementById("comments-list");
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const postId = params.get("id");
+          if (!comments.length) {
+            commentList.innerHTML = "<li>No comments found.</li>";
+            return;
+          }
 
-    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-      .then(res => res.json())
-      .then(post => {
-        document.getElementById("post-title").textContent = post.title;
-        document.getElementById("post-body").textContent = post.body;
-        document.getElementById("post-meta").textContent = `User ID: ${post.userId} | Post ID: ${post.id}`;
-      })
-      .catch(err => {
-        document.getElementById("post-title").textContent = "Post not found.";
-        document.getElementById("post-body").textContent = "";
-        document.getElementById("post-meta").textContent = "";
-      });
-  </script>
-</body>
+          commentList.innerHTML = comments
+            .map(
+              (comment) => `
+          <li>
+            <strong>${comment.name}</strong>
+            <em>${comment.email}</em>
+            ${comment.body}
+          </li>
+        `
+            )
+            .join("");
+        })
+        .catch((err) => {
+          document.getElementById("comments-list").innerHTML =
+            "<li>Error loading comments.</li>";
+        });
+    </script>
+  </body>
 </html>
