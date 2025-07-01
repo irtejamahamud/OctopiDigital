@@ -31,7 +31,7 @@ function displayPosts(posts) {
   <span><label>User:</label> ${post.userId}</span>
   <span><label>Post:</label> ${post.id}</span>
 </div>
-
+ 
     <a href="view-post.html?id=${post.id}" class="read-more-btn">Read More</a>
   </div>
 `;

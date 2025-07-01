@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+<div class="left-panel">
+  <div class="branding">
+    <h2>Welcome to QuickRegister</h2>
+    <p>Create your account in just a few steps</p>
+  </div>
+</div>
+
+
+    <div class="right-panel">
+      <h2>Register</h2>
+      <p class="desc">Let’s get you all set up so you can verify your personal account and begin setting up your profile.</p>
+
+      <form id="registrationForm" novalidate>
+        <div class="row">
+          <div>
+            <input type="text" placeholder="First Name" id="fname" required />
+            <small class="error" id="fnameError"></small>
+          </div>
+          <div>
+            <input type="text" placeholder="Last Name" id="lname" required />
+            <small class="error" id="lnameError"></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <input type="text" placeholder="Username" id="username" required />
+            <small class="error" id="usernameError"></small>
+          </div>
+          <div>
+            <input type="text" placeholder="Mobile Number" id="mobile" required />
+            <small class="error" id="mobileError"></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <input type="email" placeholder="Email" id="email" required />
+            <small class="error" id="emailError"></small>
+          </div>
+          <div>
+            <input type="text" placeholder="Address" id="address" required />
+            <small class="error" id="addressError"></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <input type="password" placeholder="Password" id="password" required />
+            <small class="error" id="passwordError"></small>
+          </div>
+          <div>
+            <input type="password" placeholder="Confirm Password" id="confirmPassword" required />
+            <small class="error" id="confirmPasswordError"></small>
+          </div>
+        </div>
+
+        <div class="gender">
+          <label><input type="radio" name="gender" value="male" required /> Male</label>
+          <label><input type="radio" name="gender" value="female" required /> Female</label>
+          <small class="error" id="genderError"></small>
+        </div>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" id="terms" /> I agree to all the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></label>
+          <small class="error" id="termsError"></small>
+        </div>
+
+        <button type="submit">Create Account</button>
+        <p class="login">Already have an account? <a href="#">Log in</a></p>
+      </form>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
