@@ -7,18 +7,18 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Fetch posts from API
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => {
-        setPosts(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://jsonplaceholder.typicode.com/posts")
+  //     .then((response) => {
+  //       setPosts(response.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   // Runs only once on load
   useEffect(() => {
