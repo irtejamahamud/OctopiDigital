@@ -7,16 +7,9 @@ import ChildFour from "./ChildFour";
 function Parent({ count, setCount }) {
   return (
     <div className="bg-white px-8 py-10 rounded-2xl shadow-2xl max-w-md w-full text-center space-y-8 border border-gray-200">
-      {/* Heading */}
       <ChildOne />
-
-      {/* Count Display */}
       <ChildTwo count={count} />
-
-      {/* Buttons */}
       <ChildThree count={count} setCount={setCount} />
-
-      {/* Message Display */}
       <ChildFour count={count} />
     </div>
   );
