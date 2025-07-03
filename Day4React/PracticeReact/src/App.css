@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.counter {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.counter h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.counter .buttons button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.counter .buttons button:hover {
+  background-color: #084cdf;
+}
+
+.posts h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.post {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 4px solid #0d6efd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.post h2 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.post p {
+  margin: 0;
+  color: #666;
+}
