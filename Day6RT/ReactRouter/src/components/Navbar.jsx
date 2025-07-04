@@ -15,6 +15,21 @@ export default function Navbar() {
             About
           </Link>
         </li>
+        <li>
+          <Link to="/login" className="hover:text-blue-600">
+            Login
+          </Link>
+        </li>
+        <li>
+          <Link to="/settings" className="hover:text-blue-600">
+            Settings
+          </Link>
+        </li>
+        <li>
+          <Link to="/dashboard/home" className="hover:text-blue-600">
+            Dashboard Home
+          </Link>
+        </li>
       </ul>
     </nav>
   );
