@@ -21,14 +21,15 @@ export default function BlogCard({ post }) {
       {/* Right: Content */}
       <div className="w-2/3 p-6 flex flex-col justify-between">
         {/* Top row: timestamp & icons */}
+        {/* Top row: timestamp & icons */}
         <div className="flex justify-between items-start">
           <span className="text-xs text-gray-400">54 Minutes Ago</span>
-          <div className="flex space-x-4 text-gray-400">
-            {/* Heart icon */}
-            <button className="hover:text-red-500 transition-colors">
+          <div className="flex space-x-4">
+            {/* Heart (outline) */}
+            <button className="text-gray-400 hover:text-red-500 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -37,16 +38,17 @@ export default function BlogCard({ post }) {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 
-                     116.364 6.364L12 21.682l-7.682-7.682a4.5 4.5 0 010-6.364z"
+                  d="M3.172 5.172a4 4 0 015.657 0L12 8.343l3.172-3.171a4 4 0
+                 115.656 5.656L12 21.657l-8.828-8.829a4 4 0 010-5.656z"
                 />
               </svg>
             </button>
-            {/* Share icon */}
-            <button className="hover:text-blue-500 transition-colors">
+
+            {/* Share (arrow) */}
+            <button className="text-gray-400 hover:text-blue-500 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -55,8 +57,7 @@ export default function BlogCard({ post }) {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15 8a3 3 0 11-2.83-4h.09M6.82 4a3 3 0 103.36 4H9.09
-                     M8.21 21l7.58-7.59M8.21 3l7.58 7.59"
+                  d="M15 8l4 4m0 0l-4 4m4-4H9"
                 />
               </svg>
             </button>
