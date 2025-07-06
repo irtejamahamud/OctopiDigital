@@ -1,7 +1,6 @@
-// src/components/BlogCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import sampleImg from "../assets/static.jpg"; // put your image here
+import sampleImg from "../assets/static.jpg"; 
 
 export default function BlogCard({ post }) {
   const { id, userId, title, body } = post;
@@ -20,8 +19,7 @@ export default function BlogCard({ post }) {
 
       {/* Right: Content */}
       <div className="w-2/3 p-6 flex flex-col justify-between">
-        {/* Top row: timestamp & icons */}
-        {/* Top row: timestamp & icons */}
+
         <div className="flex justify-between items-start">
           <span className="text-xs text-gray-400">54 Minutes Ago</span>
           <div className="flex space-x-4">
@@ -70,10 +68,10 @@ export default function BlogCard({ post }) {
           <p className="text-gray-600 mb-4">{excerpt}</p>
         </div>
 
-        {/* Footer: user/post IDs and button */}
+        
         <div className="flex justify-between items-center">
           <div className="text-xs text-gray-400">
-            <span>User: {userId}</span> | <span>ID: {id}</span>
+            <span>User: {userId}</span>  <span>ID: {id}</span>
           </div>
           <Link to={`/posts/${id}`}>
             <button

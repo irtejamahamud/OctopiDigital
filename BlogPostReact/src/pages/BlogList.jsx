@@ -7,7 +7,7 @@ import BlogCard from "../components/BlogCard";
 export default function BlogList() {
   const { posts, setPosts, searchTerm } = useContext(BlogContext);
 
-  console.log("🔍 BlogList mounted, posts:", posts.length);
+  console.log("BlogList mounted, posts:", posts.length);
 
   useEffect(() => {
     if (posts.length === 0) {
