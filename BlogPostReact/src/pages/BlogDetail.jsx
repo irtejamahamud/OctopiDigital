@@ -1,9 +1,8 @@
-// src/pages/BlogDetail.jsx
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { BlogContext } from "../context/BlogContext";
-import sampleImg from "../assets/static.jpg"; // your static image
+import sampleImg from "../assets/static.jpg";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -83,13 +82,10 @@ export default function BlogDetail() {
             </div>
           </div>
 
-          {/* Title */}
-          <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
 
-          {/* Body */}
+          <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
           <p className="text-gray-700 leading-relaxed mb-6">{post.body}</p>
 
-          {/* Footer meta */}
           <div className="flex justify-between text-sm text-gray-500">
             <span>User: {post.userId}</span>
             <span>Post: {post.id}</span>

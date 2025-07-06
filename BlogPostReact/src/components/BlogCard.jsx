@@ -11,19 +11,19 @@ export default function BlogCard({ post }) {
 
   return (
     <>
-      <div className="relative flex bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200 mb-8">
-        {/* Left: Image */}
-        <div className="w-1/3">
+      <div className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200 mb-8 h-[300px]">
+        {/* Floating Image */}
+        <div className="absolute left-6 top-6 w-28 h-28 bg-gray-200 rounded-xl overflow-hidden shadow-lg">
           <img
             src={sampleImg}
             alt={title}
-            className="h-full w-full object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Right: Content */}
-        <div className="w-2/3 p-6 flex flex-col justify-between">
-          {/* Top row: timestamp & eye icon */}
+        {/* Content */}
+        <div className="h-full pl-44 pr-6 pt-6 pb-4 flex flex-col justify-between">
+          {/* Header */}
           <div className="flex justify-between items-start">
             <span className="text-xs text-gray-400">54 Minutes Ago</span>
             <button
@@ -56,13 +56,13 @@ export default function BlogCard({ post }) {
             </button>
           </div>
 
-          {/* Title & excerpt */}
+          {/* Title & Excerpt */}
           <div>
-            <h2 className="text-2xl font-bold mb-2">{title}</h2>
-            <p className="text-gray-600 mb-4">{excerpt}</p>
+            <h2 className="text-2xl font-bold mb-2 line-clamp-2">{title}</h2>
+            <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
           </div>
 
-          {/* Footer: IDs and read-more button */}
+          {/* Footer */}
           <div className="flex justify-between items-center">
             <div className="text-xs text-gray-400">
               <span>User: {userId}</span> <span>ID: {id}</span>

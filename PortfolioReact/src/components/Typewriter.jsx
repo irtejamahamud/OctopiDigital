@@ -1,26 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-function Typewriter({ text, speed = 100, delay = 1000 }) {
-  const [displayText, setDisplayText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+const Typewriter = ({ texts = [], speed = 100, delay = 2000 }) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText((prev) => prev + text[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
-      }, speed);
-      return () => clearTimeout(timeout);
-    } else {
-      const resetTimeout = setTimeout(() => {
-        setDisplayText("");
-        setCurrentIndex(0);
-      }, delay);
-      return () => clearTimeout(resetTimeout);
-    }
-  }, [currentIndex, text, speed, delay]);
+    const currentText = texts[currentTextIndex];
 
-  return <span>{displayText}</span>;
-}
+    let timeout;
+
+    if (!isDeleting && charIndex < currentText.length) {
+      timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + currentText.charAt(charIndex));
+        setCharIndex((prev) => prev + 1);
+      }, speed);
+    } else if (isDeleting && charIndex > 0) {
+      timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev.slice(0, -1));
+        setCharIndex((prev) => prev - 1);
+      }, speed / 2);
+    } else {
+      timeout = setTimeout(() => {
+        setIsDeleting(!isDeleting);
+        if (!isDeleting) {
+          // Finished typing
+          timeout = setTimeout(() => setIsDeleting(true), delay);
+        } else {
+          // Finished deleting
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+          setCharIndex(0);
+        }
+      }, delay);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, texts, currentTextIndex, speed, delay]);
+
+  return (
+    <span>
+      {displayedText}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+};
 
 export default Typewriter;

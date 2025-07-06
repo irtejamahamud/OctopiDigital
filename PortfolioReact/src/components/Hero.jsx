@@ -1,22 +1,42 @@
 import React from "react";
-import heroImage from "../assets/hero-bg.jpg"; // optional: your background image
+import heroImage from "../assets/hero-bg.jpg";
 import Typewriter from "./Typewriter";
+import ParticlesCanvas from "./ParticlesCanvas";
 
 const Hero = () => {
-  const name = "Irteja Mahmud";
   return (
-    <section
-      id="home"
-      className="relative h-screen bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${heroImage})` }}
-    >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <section id="home" className="relative h-screen w-full overflow-hidden">
+      {/* ✅ Background image as a div */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+        }}
+      ></div>
 
-      <div className="relative z-10 flex flex-col justify-center items-center h-full text-white text-center px-4">
+      {/* ✅ Particles on top of background but under content */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        <ParticlesCanvas />
+      </div>
+
+      {/* ✅ Dark overlay on top of particles */}
+      <div className="absolute inset-0 bg-black/60  z-20" />
+
+      {/* ✅ Main Content on top */}
+      <div className="relative z-30 flex flex-col justify-center items-center h-full text-white text-center px-4">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8">
           I Am{" "}
           <span className="text-orange-500">
-            <Typewriter text="Irteja Mahmud" speed={100} delay={1500} />
+            <Typewriter
+              texts={[
+                "Irteja Mahmud",
+                "Web Developer",
+                "Data Analyst",
+                "Web Designer",
+              ]}
+              speed={100}
+              delay={1500}
+            />
           </span>
         </h1>
 
