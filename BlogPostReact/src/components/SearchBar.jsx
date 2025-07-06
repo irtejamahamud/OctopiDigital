@@ -1,4 +1,3 @@
-// src/components/SearchBar.jsx
 import React, { useContext } from "react";
 import { BlogContext } from "../context/BlogContext";
 
@@ -7,7 +6,6 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full mb-8">
-      {/* Search icon */}
       <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
