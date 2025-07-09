@@ -1,0 +1,11 @@
+@keyframes orbit {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spins only the ICON WRAPPER container, not the rings */
+.orbit-container {
+  animation: orbit 30s linear infinite;
+  transform-origin: 50% 50%;
+}

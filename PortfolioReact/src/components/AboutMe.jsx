@@ -5,12 +5,15 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const AboutMe = () => {
   return (
-    <section className="bg-black py-20 px-4 md:px-20 text-white relative">
+    <section
+      id="about"
+      className="bg-black  py-20 px-4 md:px-20 pd-30 text-white relative"
+    >
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* ✅ Left Column (Image + Cards) */}
-        <div className="relative flex items-center justify-center">
+        <div className="relative flex items-center  justify-center">
           {/* Background Glow */}
-          <div className="absolute w-72 h-72 bg-gradient-to-br from-purple-500 to-orange-600 blur-3xl rounded-full -z-10 left-0 top-0 opacity-20" />
+          <div className="absolute w-72 h-72 bg-gradient-to-t from-orange-600 to-transparent blur-3xl rounded-full -z-10 left-0 top-0 opacity-20" />
 
           {/* Main Image */}
           <img
@@ -20,7 +23,7 @@ const AboutMe = () => {
           />
 
           {/* Floating Card - Blue */}
-          <div className="absolute top-6 right-0 w-60 bg-[#132238] p-4 rounded-xl shadow-lg">
+          <div className="absolute -mt-2 mr-5 right-0 w-60 bg-[#132238] p-4 rounded-xl shadow-lg">
             <div className="flex items-center gap-2 text-blue-400 font-semibold">
               <FaUser />
               <span>
@@ -35,7 +38,7 @@ const AboutMe = () => {
           </div>
 
           {/* Info Card - Left */}
-          <div className="absolute bottom-[-70px] left-0 w-80 bg-[#121212] p-5 rounded-xl shadow-md">
+          <div className="absolute bottom-[-70px] pr-10 left-0 w-80 bg-[#121212] p-5 rounded-xl shadow-md">
             <h3 className="text-lg font-bold">
               <span className="text-white">JEWEL</span>{" "}
               <span className="text-orange-500">RANA</span>
