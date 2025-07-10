@@ -7,7 +7,7 @@ export default function Navbar() {
       <Link to="/" className="hover:underline">
         Counter
       </Link>
-      <Link to="/posts" className="hover:underline">
+      <Link to="/post" className="hover:underline">
         Posts
       </Link>
     </nav>
