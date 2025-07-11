@@ -20,8 +20,8 @@ export default function UserRow({ user }) {
         <td className="p-4">{user.name}</td>
         <td className="p-4">{user.nationality}</td>
         <td className="p-4 space-x-2 text-blue-600">
-          <Link to={`/user/${user.id}`}>View</Link>|
-          <button onClick={() => setEditOpen(true)}>Edit</button>|
+          <Link to={`/user/${user.id}`}>View</Link>
+          <button onClick={() => setEditOpen(true)}>Edit</button>
           <button onClick={() => setDelOpen(true)}>Delete</button>
         </td>
       </tr>

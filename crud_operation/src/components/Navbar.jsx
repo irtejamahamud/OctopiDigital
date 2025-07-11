@@ -1,16 +1,29 @@
-import { Link } from "react-router-dom";
+// src/components/Navbar.jsx
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
     <header className="bg-white shadow">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <h1 className="text-xl font-bold">Profile Manager</h1>
-        <Link
-          to="/"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      <div className="container mx-auto px-6 flex items-center justify-between py-4">
+        {/* Brand */}
+        <NavLink to="/" className="text-xl font-bold">
+          Profile Manager
+        </NavLink>
+
+        {/* Add User button—with active styling */}
+        <NavLink
+          to="/add"
+          className={({ isActive }) =>
+            [
+              "px-4 py-2 rounded",
+              isActive
+                ? "bg-blue-700 text-white"
+                : "bg-blue-600 text-white hover:bg-blue-700",
+            ].join(" ")
+          }
         >
           Add User
-        </Link>
+        </NavLink>
       </div>
     </header>
   );

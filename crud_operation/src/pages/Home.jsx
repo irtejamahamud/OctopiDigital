@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import { useGetUsersQuery } from "../features/users/usersApiSlice";
 import UserTable from "../components/UserTable";
 
