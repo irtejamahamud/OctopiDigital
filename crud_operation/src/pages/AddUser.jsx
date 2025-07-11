@@ -1,8 +1,7 @@
-// src/pages/AddUser.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../features/users/usersApiSlice";
+import { skillsList } from "../constants/skills";
 
 export default function AddUser() {
   const navigate = useNavigate();
@@ -10,15 +9,15 @@ export default function AddUser() {
 
   const [form, setForm] = useState({
     name: "",
-    image: "", // will hold Base64 string
+    image: "", // Base64
     age: "",
     nationality: "",
+    nid: "",
     gender: "",
     address: "",
     email: "",
     phone: "",
     website: "",
-    nid: "",
     educationalQualifications: {
       degree: "",
       university: "",
@@ -30,16 +29,21 @@ export default function AddUser() {
 
   const [preview, setPreview] = useState("");
 
-  const skillsList = [
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "Next.Js",
-    "Express.Js",
-    "MongoDB",
-    "MySQL",
-    "Redux",
-  ];
+  // const skillsList = [
+  //   "JavaScript",
+  //   "TypeScript",
+  //   "React",
+  //   "Next.Js",
+  //   "Express.Js",
+  //   "MongoDB",
+  //   "MySQL",
+  //   "Redux",
+  //   "PHP",
+  //   "Wordpress",
+  //   "Python",
+  //   "Figma",
+  //   "Flater",
+  // ];
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -69,18 +73,26 @@ export default function AddUser() {
     reader.readAsDataURL(file);
   };
 
-  const handleImageChange = (e) => {
-    handleFile(e.target.files?.[0]);
-  };
-
+  const handleImageChange = (e) => handleFile(e.target.files?.[0]);
   const handleDrop = (e) => {
     e.preventDefault();
     handleFile(e.dataTransfer.files?.[0]);
   };
-
   const handleRemoveImage = () => {
     setPreview("");
     setForm((f) => ({ ...f, image: "" }));
+  };
+
+  const toggleSkill = (skill) => {
+    setForm((f) => {
+      const has = f.skills.includes(skill);
+      return {
+        ...f,
+        skills: has
+          ? f.skills.filter((s) => s !== skill)
+          : [...f.skills, skill],
+      };
+    });
   };
 
   const onSubmit = async (e) => {
@@ -94,21 +106,10 @@ export default function AddUser() {
           cgpa: Number(form.educationalQualifications.cgpa),
         },
       }).unwrap();
-      navigate("/"); // back to list
+      navigate("/");
     } catch (err) {
       console.error("Failed to save: ", err);
     }
-  };
-  const toggleSkill = (skill) => {
-    setForm((f) => {
-      const has = f.skills.includes(skill);
-      return {
-        ...f,
-        skills: has
-          ? f.skills.filter((s) => s !== skill)
-          : [...f.skills, skill],
-      };
-    });
   };
 
   return (
@@ -122,7 +123,7 @@ export default function AddUser() {
         onSubmit={onSubmit}
         className="space-y-6 bg-white p-8 rounded shadow"
       >
-        {/* ─────────── Name & Age ─────────── */}
+        {/* Name & Age */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">Name</label>
@@ -149,21 +150,13 @@ export default function AddUser() {
           </div>
         </div>
 
-        {/* ─────────── Styled Image Upload ─────────── */}
+        {/* Profile Image */}
         <div>
           <label className="block font-medium mb-1">Profile Image</label>
           <div
-            className="
-      w-full h-48
-      flex items-center justify-center
-      border-2 border-dashed border-gray-300
-      rounded-lg cursor-pointer
-      hover:border-gray-400 transition
-      relative
-    "
+            className="w-full h-48 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition relative"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
-            // clicking anywhere opens the hidden input:
             onClick={() => document.getElementById("imageUpload").click()}
           >
             <input
@@ -176,7 +169,6 @@ export default function AddUser() {
 
             {!preview ? (
               <div className="text-center">
-                {/* upload icon (heroicon) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-12 w-12 text-gray-400 mx-auto"
@@ -205,11 +197,7 @@ export default function AddUser() {
                 <button
                   type="button"
                   onClick={handleRemoveImage}
-                  className="
-            absolute top-2 right-2
-            bg-white rounded-full p-1 shadow
-            hover:bg-gray-100 transition
-          "
+                  className="absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +219,7 @@ export default function AddUser() {
           </div>
         </div>
 
-        {/* ─────────── Nationality & Gender ─────────── */}
+        {/* Nationality & NID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">Nationality</label>
@@ -239,7 +227,33 @@ export default function AddUser() {
               name="nationality"
               value={form.nationality}
               onChange={onChange}
-              placeholder="Select nationality"
+              placeholder="Enter nationality"
+              className="w-full border rounded p-2"
+              required
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">NID</label>
+            <input
+              name="nid"
+              value={form.nid}
+              onChange={onChange}
+              placeholder="Enter NID"
+              className="w-full border rounded p-2"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Address & Gender */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block font-medium mb-1">Address</label>
+            <input
+              name="address"
+              value={form.address}
+              onChange={onChange}
+              placeholder="Enter address"
               className="w-full border rounded p-2"
               required
             />
@@ -261,20 +275,7 @@ export default function AddUser() {
           </div>
         </div>
 
-        {/* ─────────── Address ─────────── */}
-        <div>
-          <label className="block font-medium mb-1">Address</label>
-          <input
-            name="address"
-            value={form.address}
-            onChange={onChange}
-            placeholder="Enter address"
-            className="w-full border rounded p-2"
-            required
-          />
-        </div>
-
-        {/* ─────────── Email & Phone ─────────── */}
+        {/* Email & Phone */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">Email</label>
@@ -301,7 +302,7 @@ export default function AddUser() {
           </div>
         </div>
 
-        {/* ─────────── Website ─────────── */}
+        {/* Website */}
         <div>
           <label className="block font-medium mb-1">Website</label>
           <input
@@ -313,7 +314,7 @@ export default function AddUser() {
           />
         </div>
 
-        {/* ─────────── Education ─────────── */}
+        {/* Education */}
         <h2 className="text-xl font-semibold mt-6">Education</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -362,7 +363,7 @@ export default function AddUser() {
           </div>
         </div>
 
-        {/* ─────────── Skills ─────────── */}
+        {/* Skills */}
         <h2 className="text-xl font-semibold mt-6">Skills</h2>
         <div>
           <label className="block font-medium mb-1">Select Skills</label>
@@ -374,14 +375,11 @@ export default function AddUser() {
                   key={skill}
                   type="button"
                   onClick={() => toggleSkill(skill)}
-                  className={`
-            px-3 py-1 rounded-full text-sm font-medium transition
-            ${
-              selected
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }
-          `}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition ${
+                    selected
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
                 >
                   {skill}
                 </button>
@@ -390,6 +388,7 @@ export default function AddUser() {
           </div>
         </div>
 
+        {/* Buttons */}
         <div className="flex justify-end space-x-3 mt-6">
           <button
             type="button"

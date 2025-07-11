@@ -1,6 +1,7 @@
 // src/components/EditUserModal.jsx
 import React, { useState } from "react";
 import { useUpdateUserMutation } from "../features/users/usersApiSlice";
+import { skillsList } from "../constants/skills";
 
 export default function EditUserModal({ user, onClose }) {
   // ─── form state ─────────────────────────────────────────────────────────
@@ -26,18 +27,6 @@ export default function EditUserModal({ user, onClose }) {
   const [preview, setPreview] = useState(user.image || "");
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
-  const skillsList = [
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "Next.Js",
-    "Express.Js",
-    "MongoDB",
-    "MySQL",
-    "Redux",
-  ];
-
-  // ─── handlers ────────────────────────────────────────────────────────────
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (["degree", "university", "session", "cgpa"].includes(name)) {
@@ -102,7 +91,29 @@ export default function EditUserModal({ user, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex">
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex">
+        {/* ─── Close Button ─── */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
         {/* ───────── Sidebar ───────── */}
         <aside className="w-1/3 bg-gray-50 p-6 flex flex-col items-center text-center space-y-4">
           <div
@@ -200,6 +211,7 @@ export default function EditUserModal({ user, onClose }) {
 
           {/* Grid of inputs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Name */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Name
@@ -211,7 +223,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Age */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Age
@@ -224,7 +236,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Nationality */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Nationality
@@ -236,7 +248,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Address */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Address
@@ -248,7 +260,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Email */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Email
@@ -261,7 +273,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Phone */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Phone
@@ -273,7 +285,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Website */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Website
@@ -285,7 +297,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* NID */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 NID
@@ -297,8 +309,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
-            {/* Education nested */}
+            {/* Degree */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Degree
@@ -310,7 +321,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* University */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 University
@@ -322,7 +333,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* Session */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 Session
@@ -334,7 +345,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
+            {/* CGPA */}
             <div>
               <label className="block mb-1 font-medium text-gray-700">
                 CGPA
@@ -348,8 +359,7 @@ export default function EditUserModal({ user, onClose }) {
                 className="w-full bg-gray-100 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-
-            {/* ─── Skills (pill-style) ─── */}
+            {/* Skills */}
             <div className="md:col-span-2">
               <label className="block mb-1 font-medium text-gray-700">
                 Skills
@@ -362,15 +372,11 @@ export default function EditUserModal({ user, onClose }) {
                       key={skill}
                       type="button"
                       onClick={() => toggleSkill(skill)}
-                      className={`
-            px-3 py-1 rounded-full text-sm font-medium
-            transition
-            ${
-              selected
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }
-          `}
+                      className={`px-3 py-1 rounded-full text-sm font-medium transition ${
+                        selected
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      }`}
                     >
                       {skill}
                     </button>

@@ -1,7 +1,19 @@
 // src/pages/ViewUser.jsx
 
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetUserQuery } from "../features/users/usersApiSlice";
+import { FiPhone, FiMail, FiGlobe } from "react-icons/fi";
+import { MdLocationOn } from "react-icons/md";
+import {
+  FaIdCard,
+  FaGraduationCap,
+  FaUniversity,
+  FaCalendarAlt,
+  FaRegStar,
+  FaBirthdayCake,
+  FaVenusMars,
+} from "react-icons/fa";
 
 export default function ViewUser() {
   const { id } = useParams();
@@ -53,19 +65,31 @@ export default function ViewUser() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
                 <div>
-                  <p className="font-medium">Phone</p>
+                  <p className="flex items-center font-medium">
+                    <FiPhone className="mr-2 text-indigo-500" />
+                    Phone
+                  </p>
                   <p>{user.phone}</p>
                 </div>
                 <div>
-                  <p className="font-medium">Email</p>
+                  <p className="flex items-center font-medium">
+                    <FiMail className="mr-2 text-indigo-500" />
+                    Email
+                  </p>
                   <p>{user.email}</p>
                 </div>
                 <div className="sm:col-span-2">
-                  <p className="font-medium">Address</p>
+                  <p className="flex items-center font-medium">
+                    <MdLocationOn className="mr-2 text-indigo-500" />
+                    Address
+                  </p>
                   <p>{user.address}</p>
                 </div>
                 <div>
-                  <p className="font-medium">Website</p>
+                  <p className="flex items-center font-medium">
+                    <FiGlobe className="mr-2 text-indigo-500" />
+                    Website
+                  </p>
                   <p>
                     <a
                       href={user.website}
@@ -78,7 +102,10 @@ export default function ViewUser() {
                   </p>
                 </div>
                 <div>
-                  <p className="font-medium">NID</p>
+                  <p className="flex items-center font-medium">
+                    <FaIdCard className="mr-2 text-indigo-500" />
+                    NID
+                  </p>
                   <p>{user.nid}</p>
                 </div>
               </div>
@@ -91,19 +118,31 @@ export default function ViewUser() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
                 <div>
-                  <p className="font-medium">Degree</p>
+                  <p className="flex items-center font-medium">
+                    <FaGraduationCap className="mr-2 text-indigo-500" />
+                    Degree
+                  </p>
                   <p>{user.educationalQualifications.degree}</p>
                 </div>
                 <div>
-                  <p className="font-medium">University</p>
+                  <p className="flex items-center font-medium">
+                    <FaUniversity className="mr-2 text-indigo-500" />
+                    University
+                  </p>
                   <p>{user.educationalQualifications.university}</p>
                 </div>
                 <div>
-                  <p className="font-medium">Session</p>
+                  <p className="flex items-center font-medium">
+                    <FaCalendarAlt className="mr-2 text-indigo-500" />
+                    Session
+                  </p>
                   <p>{user.educationalQualifications.session}</p>
                 </div>
                 <div>
-                  <p className="font-medium">CGPA</p>
+                  <p className="flex items-center font-medium">
+                    <FaRegStar className="mr-2 text-indigo-500" />
+                    CGPA
+                  </p>
                   <p>{user.educationalQualifications.cgpa}</p>
                 </div>
               </div>
@@ -116,11 +155,17 @@ export default function ViewUser() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
                 <div>
-                  <p className="font-medium">Age</p>
+                  <p className="flex items-center font-medium">
+                    <FaBirthdayCake className="mr-2 text-indigo-500" />
+                    Age
+                  </p>
                   <p>{user.age}</p>
                 </div>
                 <div>
-                  <p className="font-medium">Gender</p>
+                  <p className="flex items-center font-medium">
+                    <FaVenusMars className="mr-2 text-indigo-500" />
+                    Gender
+                  </p>
                   <p>{user.gender}</p>
                 </div>
               </div>

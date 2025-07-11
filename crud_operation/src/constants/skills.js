@@ -1,0 +1,15 @@
+export const skillsList = [
+  "JavaScript",
+  "TypeScript",
+  "React",
+  "Next.Js",
+  "Express.Js",
+  "MongoDB",
+  "MySQL",
+  "Redux",
+  "PHP",
+  "Wordpress",
+  "Python",
+  "Figma",
+  "Flater",
+];
