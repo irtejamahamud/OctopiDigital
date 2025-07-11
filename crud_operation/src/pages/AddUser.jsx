@@ -28,7 +28,6 @@ export default function AddUser() {
     skills: [],
   });
 
-  // live preview of chosen image
   const [preview, setPreview] = useState("");
 
   const skillsList = [
@@ -42,7 +41,6 @@ export default function AddUser() {
     "Redux",
   ];
 
-  // generic handler for text / select
   const onChange = (e) => {
     const { name, value } = e.target;
     if (["degree", "university", "session", "cgpa"].includes(name)) {
@@ -54,7 +52,6 @@ export default function AddUser() {
         },
       }));
     } else if (name === "skills") {
-      // multi-select dropdown
       const opts = Array.from(e.target.selectedOptions, (o) => o.value);
       setForm((f) => ({ ...f, skills: opts }));
     } else {
@@ -62,8 +59,6 @@ export default function AddUser() {
     }
   };
 
-  // file → Base64 + preview
-  // inside your AddUser component, above the JSX:
   const handleFile = (file) => {
     if (!file) return;
     const reader = new FileReader();
@@ -103,6 +98,17 @@ export default function AddUser() {
     } catch (err) {
       console.error("Failed to save: ", err);
     }
+  };
+  const toggleSkill = (skill) => {
+    setForm((f) => {
+      const has = f.skills.includes(skill);
+      return {
+        ...f,
+        skills: has
+          ? f.skills.filter((s) => s !== skill)
+          : [...f.skills, skill],
+      };
+    });
   };
 
   return (
@@ -360,33 +366,42 @@ export default function AddUser() {
         <h2 className="text-xl font-semibold mt-6">Skills</h2>
         <div>
           <label className="block font-medium mb-1">Select Skills</label>
-          <select
-            name="skills"
-            multiple
-            value={form.skills}
-            onChange={onChange}
-            className="w-full border rounded p-2"
-          >
-            {skillsList.map((skill) => (
-              <option key={skill} value={skill}>
-                {skill}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-wrap gap-2">
+            {skillsList.map((skill) => {
+              const selected = form.skills.includes(skill);
+              return (
+                <button
+                  key={skill}
+                  type="button"
+                  onClick={() => toggleSkill(skill)}
+                  className={`
+            px-3 py-1 rounded-full text-sm font-medium transition
+            ${
+              selected
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }
+          `}
+                >
+                  {skill}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex justify-end space-x-3 mt-6">
           <button
             type="button"
             onClick={() => navigate("/")}
-            className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
+            className="px-4 py-2 border rounded-xl text-gray-700 hover:bg-gray-100"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
           >
             {isLoading ? "Saving…" : "Save"}
           </button>

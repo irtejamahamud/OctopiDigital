@@ -6,8 +6,9 @@ export default function UserTable({ users }) {
       <table className="min-w-full">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-4 text-left">Profile Picture</th>
-            <th className="p-4 text-left">Full Name</th>
+            <th className="p-4 text-left">Profile</th>
+            <th className="p-4 text-left">Name</th>
+            <th className="p-4 text-left">Email</th>
             <th className="p-4 text-left">Nationality</th>
             <th className="p-4 text-left">Actions</th>
           </tr>

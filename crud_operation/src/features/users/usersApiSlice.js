@@ -12,23 +12,21 @@ export const usersApi = createApi({
     getUsers: builder.query({
       query: () => "/users?sort=asc",
       transformResponse: (rawResponse) => {
-        // 1) inspect the raw payload
-        console.log("🥩 rawResponse from /users:", rawResponse);
-        // 2) try to find the array on rawResponse
+        console.log("rawResponse from /users:", rawResponse);
+
         const list =
-          // if they give you an array directly
+          
           Array.isArray(rawResponse)
             ? rawResponse
-            : // or if they wrap it in `data`
+            : 
             rawResponse.data && Array.isArray(rawResponse.data)
             ? rawResponse.data
-            : // or if they wrap it in `users`
+            : 
             rawResponse.users && Array.isArray(rawResponse.users)
             ? rawResponse.users
-            : // otherwise, assume they did something else – use empty
+            : 
               [];
 
-        // 3) normalize each item so you get `id` instead of `_id`
         return list.map((u) => ({
           ...u,
           id: u._id ?? u.id,
@@ -43,7 +41,7 @@ export const usersApi = createApi({
     getUser: builder.query({
       query: (id) => `/users/${id}`,
       transformResponse: (raw) => {
-        console.log("🥩 raw single user:", raw);
+        console.log("raw single user:", raw);
         return { ...raw, id: raw._id ?? raw.id };
       },
       providesTags: (result, error, id) => [{ type: "User", id }],
