@@ -8,7 +8,10 @@ import {
 import Modal from "./Modal";
 
 export default function Posts() {
-  const { data = [], isLoading, error } = useGetPostsQuery();
+  const [page, setPage] = useState(1);
+  const limit = 5;
+
+  const { data = [], isLoading, error } = useGetPostsQuery({ page, limit });
   const [addPost] = useAddPostMutation();
   const [updatePost] = useUpdatePostMutation();
   const [deletePost] = useDeletePostMutation();
@@ -39,6 +42,14 @@ export default function Posts() {
   const closeForm = () => {
     setModalOpen(false);
     setForm({ title: "", body: "", id: null });
+  };
+
+  const handlePrev = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    setPage(page + 1);
   };
 
   if (isLoading) return <p className="p-4 text-gray-600">Loading...</p>;
@@ -95,7 +106,7 @@ export default function Posts() {
       </Modal>
 
       <ul className="space-y-4 mt-4">
-        {data.slice(0, 10).map((post) => (
+        {data.map((post) => (
           <li
             key={post.id}
             className="bg-white p-4 rounded-xl shadow border border-gray-100"
@@ -104,9 +115,9 @@ export default function Posts() {
               {post.title}
             </h3>
             <p className="text-gray-600 mt-1">{post.body}</p>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex gap-2 justify-end">
               <button
-                className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-1.5 rounded"
+                className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1.5 rounded"
                 onClick={() => startEdit(post)}
               >
                 Edit
@@ -121,6 +132,27 @@ export default function Posts() {
           </li>
         ))}
       </ul>
+
+      <div className="mt-6 flex justify-between items-center">
+        <button
+          onClick={handlePrev}
+          disabled={page === 1}
+          className={`px-4 py-2 rounded ${
+            page === 1
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 text-white"
+          }`}
+        >
+          Previous
+        </button>
+        <span className="text-gray-700 font-medium">Page {page}</span>
+        <button
+          onClick={handleNext}
+          className="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

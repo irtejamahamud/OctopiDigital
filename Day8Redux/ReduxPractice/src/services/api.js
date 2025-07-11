@@ -5,12 +5,14 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://jsonplaceholder.typicode.com",
   }),
-  tagTypes: ["Posts"], // Enable cache tagging
+  tagTypes: ["Posts"],
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: () => "/posts",
+      query: ({ page = 1, limit = 5 }) =>
+        `/posts?_page=${page}&_limit=${limit}`,
       providesTags: ["Posts"],
     }),
+
     addPost: builder.mutation({
       query: (newPost) => ({
         url: "/posts",
