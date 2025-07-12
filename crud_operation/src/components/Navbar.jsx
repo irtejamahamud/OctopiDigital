@@ -82,7 +82,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="block text-center px-4 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-full font-semibold shadow-md"
             >
-              Add User
+              Add New User
             </NavLink>
           </div>
         </div>
