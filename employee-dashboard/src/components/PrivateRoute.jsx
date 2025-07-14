@@ -11,7 +11,6 @@ export default function PrivateRoute({ children, allowedRoles }) {
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // If role is not allowed, redirect to dashboard or forbidden page
     return <Navigate to="/" replace />;
   }
 
