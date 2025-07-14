@@ -1,0 +1,5 @@
+[
+  { "userId": 1, "date": "2025-07-13", "status": "present" },
+  { "userId": 2, "date": "2025-07-13", "status": "present" },
+  { "userId": 3, "date": "2025-07-13", "status": "absent" }
+]

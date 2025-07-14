@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "role": "admin",
+    "team": "HR",
+    "email": "alice@company.com"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "role": "manager",
+    "team": "Sales",
+    "email": "bob@company.com"
+  },
+  {
+    "id": 3,
+    "name": "Charlie",
+    "role": "employee",
+    "team": "Sales",
+    "email": "charlie@company.com"
+  }
+]

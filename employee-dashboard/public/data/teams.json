@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "HR",
+    "description": "Human Resources team",
+    "members": [1]
+  },
+  {
+    "id": 2,
+    "name": "Sales",
+    "description": "Sales & Marketing team",
+    "members": [2, 3]
+  }
+]
