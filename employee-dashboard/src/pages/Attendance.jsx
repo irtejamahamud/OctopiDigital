@@ -125,12 +125,12 @@ export default function Attendance() {
               return (
                 <tr
                   key={i}
-                  className="group bg-gray-50 hover:bg-blue-50 transition rounded-xl"
+                  className="group hover:scale-[1.01] hover:shadow-md transition rounded-xl bg-gray-50 hover:bg-blue-50"
                   style={{
                     boxShadow: "0 1px 2px rgba(20, 80, 200, 0.03)",
                   }}
                 >
-                  <td className="p-4 flex items-center gap-3 rounded-l-xl">
+                  <td className="p-4 flex items-center gap-3 rounded-xl">
                     {u && (
                       <span
                         className="w-10 h-10 flex items-center justify-center rounded-full text-base font-bold shadow"
