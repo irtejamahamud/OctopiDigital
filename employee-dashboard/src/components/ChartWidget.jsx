@@ -18,7 +18,7 @@ export function AttendanceBarChart({ data }) {
   return (
     <div className="bg-white rounded-2xl shadow p-6">
       <h3 className="font-semibold mb-3 text-gray-800">
-        Attendance Last 7 Days
+        Attendance of Last 7 Days
       </h3>
       <ResponsiveContainer width="100%" height={220}>
         <BarChart data={data}>
