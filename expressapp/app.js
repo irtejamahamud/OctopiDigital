@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 
 app.use(express.text());
+app.locals.title = "Express";
 
 app.get("/", (req, res) => {
-  console.log("GET /", req.body);
+  //   console.log("GET /", req.body);
+  console.log(app.locals.title);
   res.send("Listening to GET request");
 });
 
