@@ -1,8 +1,21 @@
 const express = require("express");
 const app = express();
 
+app.use(express.text());
+
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+  console.log("GET /", req.body);
+  res.send("Listening to GET request");
+});
+
+app.post("/greet", (req, res) => {
+  console.log("POST /greet body:", req.body);
+
+  if (req.body) {
+    res.send(`Hello, ${req.body}!`);
+  } else {
+    res.send("Listening to the POST request (no name provided)");
+  }
 });
 
 const PORT = 3000;
