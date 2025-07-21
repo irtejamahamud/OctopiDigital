@@ -9,7 +9,7 @@ export default function UserRow({ user }) {
 
   return (
     <>
-      <tr className="border-t hover:shadow-lg hover:bg-white transition-shadow duration-200">
+      <tr className="border-b hover:shadow-lg hover:bg-white transition-shadow duration-200">
         <td className="p-4">
           <img
             src={user.image}
