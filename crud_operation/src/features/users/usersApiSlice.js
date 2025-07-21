@@ -1,32 +1,24 @@
-// src/features/users/usersApiSlice.js
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://wesoftin-backend.vercel.app",
+    baseUrl: "http://localhost:5000/api", // Updated to your local backend
+    // For production: baseUrl: "https://your-backend-url/api"
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => "/users?sort=asc",
+      query: () => "/users",
       transformResponse: (rawResponse) => {
-        console.log("rawResponse from /users:", rawResponse);
-
-        const list =
-          
-          Array.isArray(rawResponse)
-            ? rawResponse
-            : 
-            rawResponse.data && Array.isArray(rawResponse.data)
-            ? rawResponse.data
-            : 
-            rawResponse.users && Array.isArray(rawResponse.users)
-            ? rawResponse.users
-            : 
-              [];
-
+        // Simplified
+        const list = Array.isArray(rawResponse)
+          ? rawResponse
+          : rawResponse.data && Array.isArray(rawResponse.data)
+          ? rawResponse.data
+          : rawResponse.users && Array.isArray(rawResponse.users)
+          ? rawResponse.users
+          : [];
         return list.map((u) => ({
           ...u,
           id: u._id ?? u.id,
@@ -40,10 +32,10 @@ export const usersApi = createApi({
 
     getUser: builder.query({
       query: (id) => `/users/${id}`,
-      transformResponse: (raw) => {
-        console.log("raw single user:", raw);
-        return { ...raw, id: raw._id ?? raw.id };
-      },
+      transformResponse: (raw) => ({
+        ...raw,
+        id: raw._id ?? raw.id,
+      }),
       providesTags: (result, error, id) => [{ type: "User", id }],
     }),
 
