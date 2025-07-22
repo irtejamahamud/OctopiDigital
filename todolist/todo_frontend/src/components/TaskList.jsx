@@ -10,9 +10,9 @@ import TaskForm from "./TaskForm";
 
 export default function TaskList({ filter, search }) {
   const { data: todos = [], isLoading, refetch } = useGetTodosQuery();
-  const [addTodo] = useAddTodoMutation();
-  const [updateTodo] = useUpdateTodoMutation();
-  const [deleteTodo] = useDeleteTodoMutation();
+  const [addTodo, { isLoading: adding }] = useAddTodoMutation();
+  const [updateTodo, { isLoading: updating }] = useUpdateTodoMutation();
+  const [deleteTodo, { isLoading: deleting }] = useDeleteTodoMutation();
   const [editTask, setEditTask] = useState(null);
 
   // Filtering & searching
@@ -29,23 +29,25 @@ export default function TaskList({ filter, search }) {
     return match && searchMatch;
   });
 
-  // Handlers
+  // Add new todo
   const handleAdd = async (data) => {
     await addTodo({ ...data, completed: false });
     refetch();
   };
 
+  // Update/edit todo
   const handleUpdate = async (id, data) => {
     await updateTodo({ id, ...data });
     setEditTask(null);
     refetch();
   };
 
-  const handleToggle = async (task) => {
-    await updateTodo({ id: task._id, completed: !task.completed });
-    refetch();
+  // Toggle completed status (fixed)
+  const handleToggle = (task) => {
+    updateTodo({ id: task._id, completed: !task.completed });
   };
 
+  // Delete todo
   const handleDelete = async (id) => {
     await deleteTodo(id);
     refetch();
@@ -53,7 +55,7 @@ export default function TaskList({ filter, search }) {
 
   return (
     <div className="p-6 flex-1">
-      <TaskForm onSubmit={handleAdd} loading={false} btnLabel="Add Task" />
+      <TaskForm onSubmit={handleAdd} loading={adding} btnLabel="Add Task" />
       <div className="mt-6 space-y-2">
         {isLoading ? (
           <div className="text-center text-gray-400">Loading...</div>
@@ -68,6 +70,7 @@ export default function TaskList({ filter, search }) {
                 onSubmit={(data) => handleUpdate(task._id, data)}
                 btnLabel="Update"
                 onCancel={() => setEditTask(null)}
+                loading={updating}
               />
             ) : (
               <TaskCard

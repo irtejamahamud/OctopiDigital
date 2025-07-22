@@ -14,6 +14,9 @@ export default function TaskForm({
     if (initialValue) {
       setText(initialValue.text || "");
       setDueDate(initialValue.dueDate ? initialValue.dueDate.slice(0, 10) : "");
+    } else {
+      setText("");
+      setDueDate("");
     }
   }, [initialValue]);
 
@@ -22,8 +25,10 @@ export default function TaskForm({
       onSubmit={(e) => {
         e.preventDefault();
         if (text.trim()) onSubmit({ text: text.trim(), dueDate });
-        setText("");
-        setDueDate("");
+        if (!initialValue) {
+          setText("");
+          setDueDate("");
+        }
       }}
       className="flex flex-wrap gap-2 mb-4"
     >

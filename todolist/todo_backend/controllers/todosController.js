@@ -1,4 +1,6 @@
 const Todo = require("../models/Todo");
+const { ObjectId } = require("mongodb");
+const connectDB = require("../config/db");
 
 exports.getTodos = async (req, res) => {
   const todos = await Todo.find();
@@ -19,10 +21,13 @@ exports.addTodo = async (req, res) => {
 };
 
 exports.updateTodo = async (req, res) => {
+  const db = await connectDB();
   const { id } = req.params;
-  const updated = Todo.findByIdAndUpdate(id, req.body, { new: true });
-  res.status(200).json(updated);
-  res.status(500).json({ message: "Error updating todo" });
+  const update = req.body;
+  await db
+    .collection("todos")
+    .updateOne({ _id: new ObjectId(id) }, { $set: update });
+  res.json({ message: "Updated", updated: update });
 };
 
 exports.deleteTodo = async (req, res) => {
