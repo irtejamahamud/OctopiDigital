@@ -50,4 +50,41 @@ router.delete("/:id", async (req, res) => {
   res.json({ message: "Post deleted" });
 });
 
+router.post("/:id/like", async (req, res) => {
+  try {
+    const userId = req.body.userId; // You can use JWT auth later
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    if (post.likes.includes(userId)) {
+      return res.status(400).json({ error: "You already liked this post" });
+    }
+
+    post.likes.push(userId);
+    await post.save();
+    res.json({ message: "Post liked", likes: post.likes.length });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+router.post("/:id/unlike", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    const index = post.likes.map((id) => id.toString()).indexOf(userId);
+    if (index === -1) {
+      return res.status(400).json({ error: "You haven't liked this post" });
+    }
+
+    post.likes.splice(index, 1);
+    await post.save();
+    res.json({ message: "Post unliked", likes: post.likes.length });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
