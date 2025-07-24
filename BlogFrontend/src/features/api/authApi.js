@@ -16,11 +16,11 @@ export const authApi = apiSlice.injectEndpoints({
         body: credentials,
       }),
     }),
-    getCurrentUser: builder.query({
-      query: () => "users/me", // Add this route to your backend if you want
+    getUser: builder.query({
+      query: (id) => `users/${id}`,
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetCurrentUserQuery } =
+export const { useRegisterMutation, useLoginMutation, useGetUserQuery } =
   authApi;

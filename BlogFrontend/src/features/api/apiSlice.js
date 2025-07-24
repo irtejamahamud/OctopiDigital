@@ -3,9 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/", // Your backend API root
+    baseUrl: "http://localhost:3000/api/",
     prepareHeaders: (headers, { getState }) => {
-      // Optionally add token for auth routes
       const token = getState().auth.token;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -13,5 +12,5 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}), // Add endpoints below
+  endpoints: () => ({}), // We'll add endpoints via injectEndpoints
 });
