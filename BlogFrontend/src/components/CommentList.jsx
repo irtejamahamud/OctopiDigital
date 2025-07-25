@@ -1,18 +1,20 @@
-import { Link } from "react-router-dom";
+import React from "react";
 
-export default function Navbar() {
+export default function CommentList({ comments }) {
+  if (!comments || comments.length === 0) {
+    return <div className="text-gray-500">No comments yet.</div>;
+  }
   return (
-    <nav className="bg-gray-900 text-white px-4 py-3 flex justify-between items-center">
-      <div className="font-bold text-lg">
-        <Link to="/">Blog</Link>
-      </div>
-      <div className="flex gap-4">
-        <Link to="/posts">Posts</Link>
-        <Link to="/posts/new">New Post</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/profile">Profile</Link>
-      </div>
-    </nav>
+    <div className="mt-4">
+      {comments.map((comment) => (
+        <div
+          key={comment._id || comment.id}
+          className="mb-3 p-3 bg-gray-100 rounded"
+        >
+          <div className="font-semibold text-blue-600">{comment.username}</div>
+          <div className="text-gray-800">{comment.content}</div>
+        </div>
+      ))}
+    </div>
   );
 }
