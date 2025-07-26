@@ -8,12 +8,14 @@ import PostDetailPage from "../pages/PostDetailPage";
 import PostFormPage from "../pages/PostFormPage";
 import UserProfilePage from "../pages/UserProfilePage";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 // Layout component for wrapping all pages with Navbar, etc.
 const MainLayout = ({ children }) => (
   <div>
     <Navbar />
     <main className="max-w-4xl mx-auto p-4">{children}</main>
+    <Footer />
   </div>
 );
 
