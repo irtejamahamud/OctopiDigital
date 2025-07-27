@@ -13,7 +13,7 @@ export default function UserProfilePage({ user }) {
       <div className="text-2xl font-bold mb-2 text-blue-700">
         {profile.username}
       </div>
-      <div className="text-gray-700 mb-1">Email: {profile.email}</div>
+      <div className="text-gray-700 mb-1">E-mail: {profile.email}</div>
       <div className="text-gray-500 text-sm">Joined: {profile.joined}</div>
     </div>
   );
