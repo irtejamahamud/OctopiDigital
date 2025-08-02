@@ -1,451 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Development Debugging Tools</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .tabs {
+        display: flex;
+        background: #f8f9fa;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        padding: 5px;
+        overflow-x: auto;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 12px 20px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        min-width: 120px;
+      }
+
+      .tab.active {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .tab:hover:not(.active) {
+        background: #e9ecef;
+        transform: translateY(-1px);
+      }
+
+      .content {
+        display: none;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      .content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            padding: 5px;
-            overflow-x: auto;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 12px 20px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            min-width: 120px;
-        }
-        
-        .tab.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .tab:hover:not(.active) {
-            background: #e9ecef;
-            transform: translateY(-1px);
-        }
-        
-        .content {
-            display: none;
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        .content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tool-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid #667eea;
-            transition: all 0.3s ease;
-        }
-        
-        .tool-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tool-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .tool-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .steps {
-            list-style: none;
-            counter-reset: step-counter;
-        }
-        
-        .steps li {
-            counter-increment: step-counter;
-            margin-bottom: 15px;
-            padding-left: 40px;
-            position: relative;
-        }
-        
-        .steps li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-        
-        .keyboard-shortcut {
-            background: #e9ecef;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-weight: bold;
-            color: #495057;
-            margin: 0 3px;
-        }
-        
-        .tip {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            border-left: 4px solid #fdcb6e;
-        }
-        
-        .tip::before {
-            content: "💡 ";
-            font-size: 1.2em;
-        }
-        
-        .practice-section {
-            background: linear-gradient(135deg, #a8edea, #fed6e3);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-        }
-        
-        .demo-button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            margin: 10px 5px;
-        }
-        
-        .demo-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        #demoOutput {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: monospace;
-            margin-top: 15px;
-            min-height: 100px;
-            overflow-y: auto;
-        }
+      }
+
+      .tool-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+        transition: all 0.3s ease;
+      }
+
+      .tool-card:hover {
+        transform: translateX(10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .tool-title {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .tool-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .steps {
+        list-style: none;
+        counter-reset: step-counter;
+      }
+
+      .steps li {
+        counter-increment: step-counter;
+        margin-bottom: 15px;
+        padding-left: 40px;
+        position: relative;
+      }
+
+      .steps li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+      .keyboard-shortcut {
+        background: #e9ecef;
+        padding: 4px 8px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-weight: bold;
+        color: #495057;
+        margin: 0 3px;
+      }
+
+      .tip {
+        background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        border-left: 4px solid #fdcb6e;
+      }
+
+      .tip::before {
+        content: "💡 ";
+        font-size: 1.2em;
+      }
+
+      .practice-section {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 30px;
+      }
+
+      .demo-button {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        margin: 10px 5px;
+      }
+
+      .demo-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      #demoOutput {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: monospace;
+        margin-top: 15px;
+        min-height: 100px;
+        overflow-y: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>🔧 Web Development Debugging Tools</h1>
-        
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('console')">Console</div>
-            <div class="tab" onclick="showTab('elements')">Elements</div>
-            <div class="tab" onclick="showTab('network')">Network</div>
-            <div class="tab" onclick="showTab('sources')">Sources</div>
-            <div class="tab" onclick="showTab('practice')">Practice</div>
+      <h1>🔧 Web Development Debugging Tools</h1>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('console')">Console</div>
+        <div class="tab" onclick="showTab('elements')">Elements</div>
+        <div class="tab" onclick="showTab('network')">Network</div>
+        <div class="tab" onclick="showTab('sources')">Sources</div>
+        <div class="tab" onclick="showTab('practice')">Practice</div>
+      </div>
+
+      <div id="console" class="content active">
+        <div class="tool-card">
+          <div class="tool-title">
+            <div class="tool-icon">C</div>
+            Browser Console
+          </div>
+          <p>
+            <strong>What it does:</strong> Shows JavaScript errors, warnings,
+            and lets you run JavaScript commands.
+          </p>
+
+          <h3>How to open:</h3>
+          <ul class="steps">
+            <li>
+              Press <span class="keyboard-shortcut">F12</span> or
+              <span class="keyboard-shortcut">Ctrl+Shift+I</span>
+              (Windows/Linux)
+            </li>
+            <li>
+              Press <span class="keyboard-shortcut">Cmd+Option+I</span> (Mac)
+            </li>
+            <li>Right-click → "Inspect" → Click "Console" tab</li>
+          </ul>
+
+          <h3>Key features:</h3>
+          <ul class="steps">
+            <li>
+              <strong>Error messages:</strong> Red text shows JavaScript errors
+              with line numbers
+            </li>
+            <li>
+              <strong>Console.log():</strong> Use this in your code to print
+              values
+            </li>
+            <li>
+              <strong>Live JavaScript:</strong> Type commands directly to test
+              code
+            </li>
+            <li>
+              <strong>Filter messages:</strong> Filter by errors, warnings, or
+              info
+            </li>
+          </ul>
+
+          <div class="tip">
+            <strong>Pro tip:</strong> Use <code>console.log()</code>,
+            <code>console.error()</code>, and <code>console.warn()</code> in
+            your code to track what's happening!
+          </div>
         </div>
-        
-        <div id="console" class="content active">
-            <div class="tool-card">
-                <div class="tool-title">
-                    <div class="tool-icon">C</div>
-                    Browser Console
-                </div>
-                <p><strong>What it does:</strong> Shows JavaScript errors, warnings, and lets you run JavaScript commands.</p>
-                
-                <h3>How to open:</h3>
-                <ul class="steps">
-                    <li>Press <span class="keyboard-shortcut">F12</span> or <span class="keyboard-shortcut">Ctrl+Shift+I</span> (Windows/Linux)</li>
-                    <li>Press <span class="keyboard-shortcut">Cmd+Option+I</span> (Mac)</li>
-                    <li>Right-click → "Inspect" → Click "Console" tab</li>
-                </ul>
-                
-                <h3>Key features:</h3>
-                <ul class="steps">
-                    <li><strong>Error messages:</strong> Red text shows JavaScript errors with line numbers</li>
-                    <li><strong>Console.log():</strong> Use this in your code to print values</li>
-                    <li><strong>Live JavaScript:</strong> Type commands directly to test code</li>
-                    <li><strong>Filter messages:</strong> Filter by errors, warnings, or info</li>
-                </ul>
-                
-                <div class="tip">
-                    <strong>Pro tip:</strong> Use <code>console.log()</code>, <code>console.error()</code>, and <code>console.warn()</code> in your code to track what's happening!
-                </div>
-            </div>
+      </div>
+
+      <div id="elements" class="content">
+        <div class="tool-card">
+          <div class="tool-title">
+            <div class="tool-icon">E</div>
+            Elements Panel
+          </div>
+          <p>
+            <strong>What it does:</strong> Shows and lets you edit HTML
+            structure and CSS style in real-time.
+          </p>
+
+          <h3>How to use:</h3>
+          <ul class="steps">
+            <li>Right-click any element → "Inspect Element"</li>
+            <li>
+              Or open DevTools (<span class="keyboard-shortcut">F12</span>) →
+              "Elements" tab
+            </li>
+            <li>Hover over HTML code to highlight elements on page</li>
+            <li>Click elements to select and see their styles</li>
+          </ul>
+
+          <h3>Key features:</h3>
+          <ul class="steps">
+            <li>
+              <strong>Live HTML editing:</strong> Double-click to edit HTML
+              directly
+            </li>
+            <li>
+              <strong>CSS styles panel:</strong> See all styles applied to
+              selected element
+            </li>
+            <li>
+              <strong>Box model:</strong> View margins, padding, borders
+              visually
+            </li>
+            <li>
+              <strong>Computed styles:</strong> See final calculated CSS values
+            </li>
+          </ul>
+
+          <div class="tip">
+            <strong>Pro tip:</strong> Use the selector tool (top-left arrow) to
+            quickly select any element on the page!
+          </div>
         </div>
-        
-        <div id="elements" class="content">
-            <div class="tool-card">
-                <div class="tool-title">
-                    <div class="tool-icon">E</div>
-                    Elements Panel
-                </div>
-                <p><strong>What it does:</strong> Shows and lets you edit HTML structure and CSS styles in real-time.</p>
-                
-                <h3>How to use:</h3>
-                <ul class="steps">
-                    <li>Right-click any element → "Inspect Element"</li>
-                    <li>Or open DevTools (<span class="keyboard-shortcut">F12</span>) → "Elements" tab</li>
-                    <li>Hover over HTML code to highlight elements on page</li>
-                    <li>Click elements to select and see their styles</li>
-                </ul>
-                
-                <h3>Key features:</h3>
-                <ul class="steps">
-                    <li><strong>Live HTML editing:</strong> Double-click to edit HTML directly</li>
-                    <li><strong>CSS styles panel:</strong> See all styles applied to selected element</li>
-                    <li><strong>Box model:</strong> View margins, padding, borders visually</li>
-                    <li><strong>Computed styles:</strong> See final calculated CSS values</li>
-                </ul>
-                
-                <div class="tip">
-                    <strong>Pro tip:</strong> Use the selector tool (top-left arrow) to quickly select any element on the page!
-                </div>
-            </div>
+      </div>
+
+      <div id="network" class="content">
+        <div class="tool-card">
+          <div class="tool-title">
+            <div class="tool-icon">N</div>
+            Network Panel
+          </div>
+          <p>
+            <strong>What it does:</strong> Shows all network requests (API
+            calls, images, CSS, JS files) and their details.
+          </p>
+
+          <h3>How to use:</h3>
+          <ul class="steps">
+            <li>Open DevTools → "Network" tab</li>
+            <li>Refresh the page to start recording</li>
+            <li>Click on any request to see details</li>
+            <li>Use filters to show only certain types (XHR, JS, CSS, etc.)</li>
+          </ul>
+
+          <h3>Key features:</h3>
+          <ul class="steps">
+            <li>
+              <strong>Request details:</strong> See headers, response, timing
+            </li>
+            <li>
+              <strong>Status codes:</strong> Check if requests succeeded (200)
+              or failed (404, 500)
+            </li>
+            <li><strong>Response preview:</strong> View API response data</li>
+            <li>
+              <strong>Performance timing:</strong> See how long each request
+              takes
+            </li>
+          </ul>
+
+          <div class="tip">
+            <strong>Pro tip:</strong> Look for red status codes (errors) and
+            slow requests that might be causing performance issues!
+          </div>
         </div>
-        
-        <div id="network" class="content">
-            <div class="tool-card">
-                <div class="tool-title">
-                    <div class="tool-icon">N</div>
-                    Network Panel
-                </div>
-                <p><strong>What it does:</strong> Shows all network requests (API calls, images, CSS, JS files) and their details.</p>
-                
-                <h3>How to use:</h3>
-                <ul class="steps">
-                    <li>Open DevTools → "Network" tab</li>
-                    <li>Refresh the page to start recording</li>
-                    <li>Click on any request to see details</li>
-                    <li>Use filters to show only certain types (XHR, JS, CSS, etc.)</li>
-                </ul>
-                
-                <h3>Key features:</h3>
-                <ul class="steps">
-                    <li><strong>Request details:</strong> See headers, response, timing</li>
-                    <li><strong>Status codes:</strong> Check if requests succeeded (200) or failed (404, 500)</li>
-                    <li><strong>Response preview:</strong> View API response data</li>
-                    <li><strong>Performance timing:</strong> See how long each request takes</li>
-                </ul>
-                
-                <div class="tip">
-                    <strong>Pro tip:</strong> Look for red status codes (errors) and slow requests that might be causing performance issues!
-                </div>
-            </div>
+      </div>
+
+      <div id="sources" class="content">
+        <div class="tool-card">
+          <div class="tool-title">
+            <div class="tool-icon">S</div>
+            Sources Panel (Debugger)
+          </div>
+          <p>
+            <strong>What it does:</strong> Lets you set breakpoints, step
+            through code line by line, and inspect variables.
+          </p>
+
+          <h3>How to use:</h3>
+          <ul class="steps">
+            <li>Open DevTools → "Sources" tab</li>
+            <li>Find your JavaScript file in the file tree</li>
+            <li>Click line numbers to set breakpoints (red dots)</li>
+            <li>Refresh page or trigger the code to pause at breakpoints</li>
+          </ul>
+
+          <h3>Key features:</h3>
+          <ul class="steps">
+            <li>
+              <strong>Breakpoints:</strong> Pause code execution at specific
+              lines
+            </li>
+            <li>
+              <strong>Step controls:</strong> Step over, into, or out of
+              functions
+            </li>
+            <li>
+              <strong>Variables panel:</strong> See current values of all
+              variables
+            </li>
+            <li>
+              <strong>Call stack:</strong> See which functions called the
+              current one
+            </li>
+          </ul>
+
+          <div class="tip">
+            <strong>Pro tip:</strong> Use <code>debugger;</code> in your code as
+            a breakpoint, or right-click to add conditional breakpoints!
+          </div>
         </div>
-        
-        <div id="sources" class="content">
-            <div class="tool-card">
-                <div class="tool-title">
-                    <div class="tool-icon">S</div>
-                    Sources Panel (Debugger)
-                </div>
-                <p><strong>What it does:</strong> Lets you set breakpoints, step through code line by line, and inspect variables.</p>
-                
-                <h3>How to use:</h3>
-                <ul class="steps">
-                    <li>Open DevTools → "Sources" tab</li>
-                    <li>Find your JavaScript file in the file tree</li>
-                    <li>Click line numbers to set breakpoints (red dots)</li>
-                    <li>Refresh page or trigger the code to pause at breakpoints</li>
-                </ul>
-                
-                <h3>Key features:</h3>
-                <ul class="steps">
-                    <li><strong>Breakpoints:</strong> Pause code execution at specific lines</li>
-                    <li><strong>Step controls:</strong> Step over, into, or out of functions</li>
-                    <li><strong>Variables panel:</strong> See current values of all variables</li>
-                    <li><strong>Call stack:</strong> See which functions called the current one</li>
-                </ul>
-                
-                <div class="tip">
-                    <strong>Pro tip:</strong> Use <code>debugger;</code> in your code as a breakpoint, or right-click to add conditional breakpoints!
-                </div>
-            </div>
+      </div>
+
+      <div id="practice" class="content">
+        <div class="practice-section">
+          <h2>🎯 Practice Area</h2>
+          <p>
+            Try these interactive examples to practice using debugging tools!
+          </p>
+
+          <div style="margin: 20px 0">
+            <button class="demo-button" onclick="demonstrateConsole()">
+              Console Demo
+            </button>
+            <button class="demo-button" onclick="demonstrateError()">
+              Create Error
+            </button>
+            <button class="demo-button" onclick="demonstrateNetwork()">
+              Network Request
+            </button>
+            <button class="demo-button" onclick="clearOutput()">
+              Clear Output
+            </button>
+          </div>
+
+          <div id="demoOutput">
+            Click buttons above to see debugging examples! Try opening your
+            browser's DevTools (F12) and watch the Console tab while clicking
+            these buttons.
+          </div>
         </div>
-        
-        <div id="practice" class="content">
-            <div class="practice-section">
-                <h2>🎯 Practice Area</h2>
-                <p>Try these interactive examples to practice using debugging tools!</p>
-                
-                <div style="margin: 20px 0;">
-                    <button class="demo-button" onclick="demonstrateConsole()">Console Demo</button>
-                    <button class="demo-button" onclick="demonstrateError()">Create Error</button>
-                    <button class="demo-button" onclick="demonstrateNetwork()">Network Request</button>
-                    <button class="demo-button" onclick="clearOutput()">Clear Output</button>
-                </div>
-                
-                <div id="demoOutput">
-                    Click buttons above to see debugging examples!
-                    
-Try opening your browser's DevTools (F12) and watch the Console tab while clicking these buttons.
-                </div>
-            </div>
-            
-            <div class="tool-card" style="margin-top: 20px;">
-                <h3>🏆 Debugging Workflow</h3>
-                <ol class="steps">
-                    <li><strong>Reproduce the bug:</strong> Make sure you can consistently trigger the issue</li>
-                    <li><strong>Check the Console:</strong> Look for error messages first</li>
-                    <li><strong>Inspect Elements:</strong> Check if HTML/CSS is correct</li>
-                    <li><strong>Check Network:</strong> Verify API calls are working</li>
-                    <li><strong>Use Debugger:</strong> Set breakpoints to step through problematic code</li>
-                    <li><strong>Test the fix:</strong> Make sure your solution actually works!</li>
-                </ol>
-            </div>
+
+        <div class="tool-card" style="margin-top: 20px">
+          <h3>🏆 Debugging Workflow</h3>
+          <ol class="steps">
+            <li>
+              <strong>Reproduce the bug:</strong> Make sure you can consistently
+              trigger the issue
+            </li>
+            <li>
+              <strong>Check the Console:</strong> Look for error messages first
+            </li>
+            <li>
+              <strong>Inspect Elements:</strong> Check if HTML/CSS is correct
+            </li>
+            <li>
+              <strong>Check Network:</strong> Verify API calls are working
+            </li>
+            <li>
+              <strong>Use Debugger:</strong> Set breakpoints to step through
+              problematic code
+            </li>
+            <li>
+              <strong>Test the fix:</strong> Make sure your solution actually
+              works!
+            </li>
+          </ol>
         </div>
+      </div>
     </div>
-    
+
     <script>
-        function showTab(tabName) {
-            // Hide all content
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => content.classList.remove('active'));
-            
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected content and activate tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+      function showTab(tabName) {
+        // Hide all content
+        const contents = document.querySelectorAll(".content");
+        contents.forEach((content) => content.classList.remove("active"));
+
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach((tab) => tab.classList.remove("active"));
+
+        // Show selected content and activate tab
+        document.getElementById(tabName).classList.add("active");
+        event.target.classList.add("active");
+      }
+
+      function demonstrateConsole() {
+        console.log("🎉 Hello from the console!");
+        console.warn("⚠️ This is a warning message");
+        console.error("❌ This is an error message");
+
+        const output = document.getElementById("demoOutput");
+        output.innerHTML +=
+          "\n✅ Check your browser console (F12) to see the messages!";
+        output.scrollTop = output.scrollHeight;
+      }
+
+      function demonstrateError() {
+        try {
+          // This will cause an error
+          undefinedFunction();
+        } catch (error) {
+          console.error("Caught an error:", error.message);
+          const output = document.getElementById("demoOutput");
+          output.innerHTML +=
+            "\n❌ Error created! Check the console to see it.";
+          output.scrollTop = output.scrollHeight;
         }
-        
-        function demonstrateConsole() {
-            console.log('🎉 Hello from the console!');
-            console.warn('⚠️ This is a warning message');
-            console.error('❌ This is an error message');
-            
-            const output = document.getElementById('demoOutput');
-            output.innerHTML += '\n✅ Check your browser console (F12) to see the messages!';
-            output.scrollTop = output.scrollHeight;
+      }
+
+      async function demonstrateNetwork() {
+        const output = document.getElementById("demoOutput");
+        output.innerHTML +=
+          "\n🌐 Making network request... Check Network tab in DevTools!";
+
+        try {
+          const response = await fetch("https://api.github.com/users/octocat");
+          const data = await response.json();
+          console.log("Network request successful:", data);
+          output.innerHTML +=
+            "\n✅ Request completed! Check Network tab and Console.";
+        } catch (error) {
+          console.error("Network error:", error);
+          output.innerHTML +=
+            "\n❌ Network request failed. Check Console for details.";
         }
-        
-        function demonstrateError() {
-            try {
-                // This will cause an error
-                undefinedFunction();
-            } catch (error) {
-                console.error('Caught an error:', error.message);
-                const output = document.getElementById('demoOutput');
-                output.innerHTML += '\n❌ Error created! Check the console to see it.';
-                output.scrollTop = output.scrollHeight;
-            }
+        output.scrollTop = output.scrollHeight;
+      }
+
+      function clearOutput() {
+        document.getElementById("demoOutput").innerHTML =
+          "Output cleared. Try the demos above!";
+      }
+
+      // Add some sample JavaScript errors for demonstration
+      window.sampleDebuggingFunction = function () {
+        console.log("This is a sample function for debugging practice");
+        debugger; // This will trigger breakpoint in Sources tab
+
+        let sampleVar = "Hello debugging!";
+        let numbers = [1, 2, 3, 4, 5];
+
+        for (let i = 0; i < numbers.length; i++) {
+          console.log(`Number ${i}: ${numbers[i]}`);
         }
-        
-        async function demonstrateNetwork() {
-            const output = document.getElementById('demoOutput');
-            output.innerHTML += '\n🌐 Making network request... Check Network tab in DevTools!';
-            
-            try {
-                const response = await fetch('https://api.github.com/users/octocat');
-                const data = await response.json();
-                console.log('Network request successful:', data);
-                output.innerHTML += '\n✅ Request completed! Check Network tab and Console.';
-            } catch (error) {
-                console.error('Network error:', error);
-                output.innerHTML += '\n❌ Network request failed. Check Console for details.';
-            }
-            output.scrollTop = output.scrollHeight;
-        }
-        
-        function clearOutput() {
-            document.getElementById('demoOutput').innerHTML = 'Output cleared. Try the demos above!';
-        }
-        
-        // Add some sample JavaScript errors for demonstration
-        window.sampleDebuggingFunction = function() {
-            console.log('This is a sample function for debugging practice');
-            debugger; // This will trigger breakpoint in Sources tab
-            
-            let sampleVar = "Hello debugging!";
-            let numbers = [1, 2, 3, 4, 5];
-            
-            for (let i = 0; i < numbers.length; i++) {
-                console.log(`Number ${i}: ${numbers[i]}`);
-            }
-            
-            return sampleVar;
-        };
+
+        return sampleVar;
+      };
     </script>
-</body>
+  </body>
 </html>
