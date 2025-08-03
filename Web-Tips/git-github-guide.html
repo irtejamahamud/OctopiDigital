@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            color: white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            padding: 3rem;
+            min-height: 80vh;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #3498db;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #34495e;
+            margin: 1.5rem 0 0.5rem 0;
+            font-size: 1.3rem;
+        }
+
+        .command-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 5px solid #d63031;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #81ecec 0%, #00cec9 100%);
+            color: #2d3436;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 5px solid #00b894;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid #3498db;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">📚 Git & GitHub Guide</a>
+                <ul class="nav-menu">
+                    <li class="nav-item active" onclick="showPage('home')">🏠 Home</li>
+                    <li class="nav-item" onclick="showPage('basics')">📖 Basics</li>
+                    <li class="nav-item" onclick="showPage('commands')">⌨️ Commands</li>
+                    <li class="nav-item" onclick="showPage('scenarios')">🎯 Scenarios</li>
+                    <li class="nav-item" onclick="showPage('github')">🐙 GitHub</li>
+                    <li class="nav-item" onclick="showPage('company')">🏢 Company</li>
+                    <li class="nav-item" onclick="showPage('workflow')">🔄 Workflow</li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content">
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <div class="hero">
+                    <h1>🚀 Complete Git & GitHub Guide</h1>
+                    <p style="font-size: 1.2rem; color: #666; margin: 1rem 0;">Master version control and collaboration for professional development</p>
+                    <a href="#" class="btn" onclick="showPage('basics')">Get Started</a>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>🎯 What You'll Learn</h3>
+                        <ul>
+                            <li>Git fundamentals and concepts</li>
+                            <li>All essential Git commands</li>
+                            <li>GitHub platform features</li>
+                            <li>Real-world scenarios</li>
+                            <li>Company best practices</li>
+                            <li>Professional workflows</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🎓 Prerequisites</h3>
+                        <ul>
+                            <li>Basic command line knowledge</li>
+                            <li>Text editor familiarity</li>
+                            <li>Programming basics (any language)</li>
+                            <li>Understanding of file systems</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🔥 Key Benefits</h3>
+                        <ul>
+                            <li>Track code changes efficiently</li>
+                            <li>Collaborate with teams seamlessly</li>
+                            <li>Backup and restore code versions</li>
+                            <li>Deploy applications professionally</li>
+                            <li>Contribute to open source projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basics Page -->
+            <div id="basics" class="page">
+                <h1>📖 Git & GitHub Basics</h1>
+
+                <h2>What is Git?</h2>
+                <p>Git is a distributed version control system that tracks changes in files and coordinates work among multiple developers. It allows you to save snapshots of your project at different points in time.</p>
+
+                <div class="info-box">
+                    <strong>Key Concepts:</strong>
+                    <ul>
+                        <li><strong>Repository (Repo):</strong> A folder containing your project files and Git history</li>
+                        <li><strong>Commit:</strong> A snapshot of your project at a specific time</li>
+                        <li><strong>Branch:</strong> A parallel version of your repository</li>
+                        <li><strong>Merge:</strong> Combining changes from different branches</li>
+                        <li><strong>Remote:</strong> A version of your repository hosted on a server</li>
+                    </ul>
+                </div>
+
+                <h2>What is GitHub?</h2>
+                <p>GitHub is a cloud-based platform that hosts Git repositories and provides additional collaboration features like issue tracking, pull requests, and project management tools.</p>
+
+                <h2>Git vs GitHub</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Git</h3>
+                        <ul>
+                            <li>Version control system</li>
+                            <li>Works locally on your machine</li>
+                            <li>Command-line tool</li>
+                            <li>Tracks file changes</li>
+                            <li>Open source and free</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>GitHub</h3>
+                        <ul>
+                            <li>Cloud hosting platform</li>
+                            <li>Web-based interface</li>
+                            <li>Social coding features</li>
+                            <li>Issue tracking</li>
+                            <li>Collaboration tools</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>The Three States of Git</h2>
+                <div class="scenario-box">
+                    <h3>1. Working Directory</h3>
+                    <p>Files you're currently editing. These changes are not tracked by Git yet.</p>
+                    
+                    <h3>2. Staging Area (Index)</h3>
+                    <p>Files that are ready to be committed. You add files here with 'git add'.</p>
+                    
+                    <h3>3. Repository</h3>
+                    <p>Committed files that are permanently saved in Git history.</p>
+                </div>
+            </div>
+
+            <!-- Commands Page -->
+            <div id="commands" class="page">
+                <h1>⌨️ Essential Git Commands</h1>
+
+                <h2>Setup & Configuration</h2>
+                <div class="command-box">
+# Configure your identity
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Check configuration
+git config --list
+
+# Get help
+git help &lt;command&gt;
+git &lt;command&gt; --help
+                </div>
+
+                <h2>Repository Operations</h2>
+                <div class="command-box">
+# Initialize a new repository
+git init
+
+# Clone an existing repository
+git clone &lt;repository-url&gt;
+git clone &lt;repository-url&gt; &lt;directory-name&gt;
+
+# Check repository status
+git status
+
+# View commit history
+git log
+git log --oneline
+git log --graph --oneline --all
+                </div>
+
+                <h2>Basic Workflow Commands</h2>
+                <div class="command-box">
+# Add files to staging area
+git add &lt;file-name&gt;
+git add .                    # Add all files
+git add *.txt               # Add all .txt files
+git add -A                  # Add all changes
+
+# Commit changes
+git commit -m "Commit message"
+git commit -am "Add and commit in one step"
+
+# View differences
+git diff                    # Working directory vs staging
+git diff --staged          # Staging vs last commit
+git diff HEAD              # Working directory vs last commit
+                </div>
+
+                <h2>Branch Management</h2>
+                <div class="command-box">
+# List branches
+git branch                 # Local branches
+git branch -r             # Remote branches
+git branch -a             # All branches
+
+# Create and switch branches
+git branch &lt;branch-name&gt;
+git checkout &lt;branch-name&gt;
+git checkout -b &lt;branch-name&gt;  # Create and switch
+
+# Modern way (Git 2.23+)
+git switch &lt;branch-name&gt;
+git switch -c &lt;branch-name&gt;   # Create and switch
+
+# Merge branches
+git merge &lt;branch-name&gt;
+
+# Delete branches
+git branch -d &lt;branch-name&gt;   # Safe delete
+git branch -D &lt;branch-name&gt;   # Force delete
+                </div>
+
+                <h2>Remote Repository Commands</h2>
+                <div class="command-box">
+# Add remote repository
+git remote add origin &lt;repository-url&gt;
+
+# View remotes
+git remote -v
+
+# Push changes
+git push origin &lt;branch-name&gt;
+git push -u origin &lt;branch-name&gt;  # Set upstream
+
+# Pull changes
+git pull origin &lt;branch-name&gt;
+git pull                    # From current branch's upstream
+
+# Fetch changes (without merging)
+git fetch origin
+                </div>
+
+                <h2>Undoing Changes</h2>
+                <div class="command-box">
+# Unstage files
+git reset &lt;file-name&gt;
+git reset                   # Unstage all
+
+# Discard working directory changes
+git checkout -- &lt;file-name&gt;
+git restore &lt;file-name&gt;     # Modern way
+
+# Reset to previous commit
+git reset --soft HEAD~1    # Keep changes staged
+git reset --mixed HEAD~1   # Keep changes in working directory
+git reset --hard HEAD~1    # Discard all changes
+
+# Revert a commit (safe way)
+git revert &lt;commit-hash&gt;
+                </div>
+
+                <h2>Advanced Commands</h2>
+                <div class="command-box">
+# Stash changes temporarily
+git stash
+git stash push -m "message"
+git stash list
+git stash apply
+git stash pop
+git stash drop
+
+# Rebase (rewrite commit history)
+git rebase &lt;branch-name&gt;
+git rebase -i &lt;commit-hash&gt;  # Interactive rebase
+
+# Cherry-pick specific commits
+git cherry-pick &lt;commit-hash&gt;
+
+# Tag releases
+git tag &lt;tag-name&gt;
+git tag -a &lt;tag-name&gt; -m "message"
+git push origin &lt;tag-name&gt;
+                </div>
+            </div>
+
+            <!-- Scenarios Page -->
+            <div id="scenarios" class="page">
+                <h1>🎯 Real-World Scenarios</h1>
+
+                <h2>Scenario 1: Starting a New Project</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>You're starting a new web development project and want to track it with Git.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# 1. Create project directory
+mkdir my-awesome-project
+cd my-awesome-project
+
+# 2. Initialize Git repository
+git init
+
+# 3. Create initial files
+echo "# My Awesome Project" > README.md
+echo "node_modules/" > .gitignore
+
+# 4. Add and commit
+git add .
+git commit -m "Initial commit: Add README and gitignore"
+
+# 5. Connect to GitHub (optional)
+git remote add origin https://github.com/username/my-awesome-project.git
+git push -u origin main
+                    </div>
+                </div>
+
+                <h2>Scenario 2: Collaborating on Existing Project</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>You need to contribute to an existing project on GitHub.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# 1. Fork the repository on GitHub (via web interface)
+
+# 2. Clone your fork
+git clone https://github.com/your-username/project-name.git
+cd project-name
+
+# 3. Add original repository as upstream
+git remote add upstream https://github.com/original-owner/project-name.git
+
+# 4. Create feature branch
+git checkout -b feature/new-awesome-feature
+
+# 5. Make changes and commit
+git add .
+git commit -m "Add new awesome feature"
+
+# 6. Push to your fork
+git push origin feature/new-awesome-feature
+
+# 7. Create Pull Request on GitHub
+                    </div>
+                </div>
+
+                <h2>Scenario 3: Fixing a Bug in Production</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>Critical bug found in production. Need to fix quickly without disrupting ongoing development.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# 1. Create hotfix branch from main/master
+git checkout main
+git pull origin main
+git checkout -b hotfix/critical-bug-fix
+
+# 2. Fix the bug
+# (edit files)
+
+# 3. Test and commit
+git add .
+git commit -m "Fix critical authentication bug"
+
+# 4. Merge back to main
+git checkout main
+git merge hotfix/critical-bug-fix
+
+# 5. Deploy to production
+git push origin main
+
+# 6. Merge into develop branch too
+git checkout develop
+git merge hotfix/critical-bug-fix
+git push origin develop
+
+# 7. Delete hotfix branch
+git branch -d hotfix/critical-bug-fix
+                    </div>
+                </div>
+
+                <h2>Scenario 4: Merge Conflicts</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>Two developers modified the same file. Git can't automatically merge.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# 1. Attempt to merge (conflict occurs)
+git merge feature-branch
+
+# 2. Check conflicted files
+git status
+
+# 3. Open conflicted file and resolve
+# Look for conflict markers:
+# &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+# Your changes
+# =======
+# Their changes
+# &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-branch
+
+# 4. After resolving conflicts
+git add &lt;resolved-file&gt;
+git commit -m "Resolve merge conflict in &lt;file&gt;"
+                    </div>
+                </div>
+
+                <h2>Scenario 5: Accidentally Committed Wrong Files</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>You committed sensitive files (passwords, large files) that shouldn't be in the repository.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# If not pushed yet:
+# 1. Remove file from staging
+git reset HEAD &lt;file&gt;
+
+# 2. Remove file from working directory
+rm &lt;file&gt;
+
+# 3. Amend the commit
+git commit --amend
+
+# If already pushed (more complex):
+# 1. Remove file from repository
+git rm --cached &lt;file&gt;
+
+# 2. Add to .gitignore
+echo "&lt;file&gt;" >> .gitignore
+
+# 3. Commit the removal
+git commit -m "Remove sensitive file"
+git push origin main
+
+# 4. For complete removal from history (dangerous):
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch &lt;file&gt;' \
+--prune-empty --tag-name-filter cat -- --all
+                    </div>
+                </div>
+
+                <h2>Scenario 6: Working with Multiple Features</h2>
+                <div class="scenario-box">
+                    <h3>Situation:</h3>
+                    <p>You're working on multiple features simultaneously and need to switch between them.</p>
+                    
+                    <h3>Steps:</h3>
+                    <div class="command-box">
+# 1. Working on feature A
+git checkout -b feature/user-authentication
+# (make changes)
+git add .
+git commit -m "WIP: Add login form"
+
+# 2. Urgent bug needs fixing
+git stash push -m "WIP on authentication"
+git checkout main
+git checkout -b hotfix/login-bug
+
+# 3. Fix bug and commit
+git add .
+git commit -m "Fix login validation bug"
+
+# 4. Back to feature work
+git checkout feature/user-authentication
+git stash pop
+
+# 5. Continue feature development
+# (make more changes)
+git add .
+git commit -m "Complete user authentication feature"
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Page -->
+            <div id="github" class="page">
+                <h1>🐙 GitHub Features & Workflow</h1>
+
+                <h2>GitHub Key Features</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>📋 Issues</h3>
+                        <p>Track bugs, feature requests, and tasks. Use labels, milestones, and assignees to organize work.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔀 Pull Requests</h3>
+                        <p>Propose changes, review code, and discuss modifications before merging.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🚀 Actions (CI/CD)</h3>
+                        <p>Automate testing, building, and deployment with GitHub's built-in CI/CD platform.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Projects</h3>
+                        <p>Kanban-style project management with automated workflows.</p>
+                    </div>
+                </div>
+
+                <h2>Creating a Pull Request</h2>
+                <div class="scenario-box">
+                    <h3>Step-by-Step Process:</h3>
+                    <ol>
+                        <li>Fork the repository (if not a collaborator)</li>
+                        <li>Create a feature branch</li>
+                        <li>Make your changes and commit</li>
+                        <li>Push to your fork/branch</li>
+                        <li>Create PR through GitHub interface</li>
+                        <li>Fill in PR template with:
+                            <ul>
+                                <li>Clear description of changes</li>
+                                <li>Link to related issues</li>
+                                <li>Screenshots (if UI changes)</li>
+                                <li>Testing instructions</li>
+                            </ul>
+                        </li>
+                        <li>Request reviewers</li>
+                        <li>Address feedback and make changes</li>
+                        <li>Merge when approved</li>
+                    </ol>
+                </div>
+
+                <h2>GitHub CLI Commands</h2>
+                <div class="command-box">
+# Install GitHub CLI first: https://cli.github.com/
+
+# Authenticate
+gh auth login
+
+# Repository operations
+gh repo create my-project --public
+gh repo clone username/repository
+gh repo fork username/repository
+
+# Pull Request operations
+gh pr create --title "Add new feature" --body "Description"
+gh pr list
+gh pr view &lt;number&gt;
+gh pr checkout &lt;number&gt;
+gh pr merge &lt;number&gt;
+
+# Issues
+gh issue create --title "Bug report" --body "Description"
+gh issue list
+gh issue view &lt;number&gt;
+gh issue close &lt;number&gt;
+                </div>
+
+                <h2>GitHub Actions Example</h2>
+                <div class="command-box">
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build project
+      run: npm run build
+                </div>
+
+                <h2>Repository Settings & Security</h2>
+                <div class="info-box">
+                    <h3>Important Repository Settings:</h3>
+                    <ul>
+                        <li><strong>Branch Protection Rules:</strong> Require PR reviews, status checks</li>
+                        <li><strong>Security Alerts:</strong> Enable Dependabot for vulnerability scanning</li>
+                        <li><strong>Code Scanning:</strong> Automated security analysis</li>
+                        <li><strong>Secrets Management:</strong> Store API keys and credentials securely</li>
+                        <li><strong>Deploy Keys:</strong> Separate keys for deployment access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Company Page -->
+            <div id="company" class="page">
+                <h1>🏢 Company Requirements & Best Practices</h1>
+
+                <h2>Enterprise Git Requirements</h2>
+                <div class="warning-box">
+                    <h3>Critical Company Needs:</h3>
+                    <ul>
+                        <li><strong>Access Control:</strong> Role-based permissions for different team members</li>
+                        <li><strong>Audit Trail:</strong> Complete history of who changed what and when</li>
+                        <li><strong>Backup & Recovery:</strong> Multiple copies of critical code repositories</li>
+                        <li><strong>Compliance:</strong> Meeting industry standards (SOX, GDPR, etc.)</li>
+                        <li><strong>Integration:</strong> Connect with existing tools (JIRA, Slack, etc.)</li>
+                    </ul>
+                </div>
+
+                <h2>Branch Strategy for Companies</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>🌊 Git Flow</h3>
+                        <p><strong>Best for:</strong> Release-based projects</p>
+                        <ul>
+                            <li><strong>main:</strong> Production-ready code</li>
+                            <li><strong>develop:</strong> Integration branch</li>
+                            <li><strong>feature/*:</strong> New features</li>
+                            <li><strong>release/*:</strong> Release preparation</li>
+                            <li><strong>hotfix/*:</strong> Production bug fixes</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🚀 GitHub Flow</h3>
+                        <p><strong>Best for:</strong> Continuous deployment</p>
+                        <ul>
+                            <li><strong>main:</strong> Always deployable</li>
+                            <li><strong>feature branches:</strong> Short-lived</li>
+                            <li><strong>Pull requests:</strong> Code review</li>
+                            <li><strong>Deploy:</strong> From main branch</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>Code Review Standards</h2>
+                <div class="scenario-box">
+                    <h3>What to Review:</h3>
+                    <ul>
+                        <li><strong>Functionality:</strong> Does the code work as intended?</li>
+                        <li><strong>Performance:</strong> Are there any performance issues?</li>
+                        <li><strong>Security:</strong> Any security vulnerabilities?</li>
+                        <li><strong>Maintainability:</strong> Is the code clean and readable?</li>
+                        <li><strong>Testing:</strong> Are there adequate tests?</li>
+                        <li><strong>Documentation:</strong> Is it properly documented?</li>
+                    </ul>
+                </div>
+
+                <h2>Commit Message Standards</h2>
+                <div class="command-box">
+# Conventional Commits Format
+&lt;type&gt;[optional scope]: &lt;description&gt;
+
+[optional body]
+
+[optional footer(s)]
+
+# Examples:
+feat: add user authentication system
+fix: resolve login validation bug
+docs: update API documentation
+test: add unit tests for user service
+refactor: optimize database queries
+style: fix code formatting issues
+chore: update dependencies
+                </div>
+
+                <h2>Security Best Practices</h2>
+                <div class="info-box">
+                    <h3>Essential Security Measures:</h3>
+                    <ul>
+                        <li><strong>SSH Keys:</strong> Use SSH keys instead of passwords for authentication</li>
+                        <li><strong>Two-Factor Authentication:</strong> Enable 2FA on all accounts</li>
+                        <li><strong>Access Tokens:</strong> Use personal access tokens for API access</li>
+                        <li><strong>Secret Scanning:</strong> Never commit passwords, API keys, or certificates</li>
+                        <li><strong>Branch Protection:</strong> Prevent direct pushes to main/master</li>
+                        <li><strong>Signed Commits:</strong> Use GPG signing for commit verification</li>
+                    </ul>
+                </div>
+
+                <h2>Team Collaboration Guidelines</h2>
+                <div class="scenario-box">
+                    <h3>Daily Workflow:</h3>
+                    <ol>
+                        <li><strong>Morning Sync:</strong> Pull latest changes from main</li>
+                        <li><strong>Feature Work:</strong> Create feature branch for each task</li>
+                        <li><strong>Regular Commits:</strong> Commit frequently with clear messages</li>
+                        <li><strong>Code Review:</strong> All changes go through pull requests</li>
+                        <li><strong>Testing:</strong> Ensure all tests pass before merging</li>
+                        <li><strong>Documentation:</strong> Update docs with significant changes</li>
+                    </ol>
+                </div>
+
+                <h2>Tools Integration</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>🔗 CI/CD Tools</h3>
+                        <ul>
+                            <li>GitHub Actions</li>
+                            <li>Jenkins</li>
+                            <li>GitLab CI</li>
+                            <li>CircleCI</li>
+                            <li>Travis CI</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>📋 Project Management</h3>
+                        <ul>
+                            <li>JIRA integration</li>
+                            <li>Trello boards</li>
+                            <li>Asana tasks</li>
+                            <li>Linear issues</li>
+                            <li>Azure DevOps</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>💬 Communication</h3>
+                        <ul>
+                            <li>Slack notifications</li>
+                            <li>Microsoft Teams</li>
+                            <li>Discord webhooks</li>
+                            <li>Email alerts</li>
+                            <li>Mattermost</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Page -->
+            <div id="workflow" class="page">
+                <h1>🔄 Professional Git Workflow</h1>
+
+                <h2>Complete Development Workflow</h2>
+                <div class="scenario-box">
+                    <h3>1. Project Setup Phase</h3>
+                    <div class="command-box">
+# Initialize project repository
+git init
+git remote add origin https://github.com/company/project.git
+
+# Set up branch protection and team access
+# (Done through GitHub web interface)
+
+# Create development branch
+git checkout -b develop
+git push -u origin develop
+                    </div>
+
+                    <h3>2. Feature Development Phase</h3>
+                    <div class="command-box">
+# Start new feature
+git checkout develop
+git pull origin develop
+git checkout -b feature/user-dashboard
+
+# Development cycle
+git add .
+git commit -m "feat: implement user dashboard layout"
+git push origin feature/user-dashboard
+
+# Create pull request through GitHub interface
+# Request code review from team members
+                    </div>
+
+                    <h3>3. Code Review Phase</h3>
+                    <div class="command-box">
+# Address reviewer feedback
+git add .
+git commit -m "fix: address code review comments"
+git push origin feature/user-dashboard
+
+# Sync with latest develop changes
+git checkout develop
+git pull origin develop
+git checkout feature/user-dashboard
+git rebase develop
+git push --force-with-lease origin feature/user-dashboard
+                    </div>
+
+                    <h3>4. Integration Phase</h3>
+                    <div class="command-box">
+# After PR approval, merge to develop
+git checkout develop
+git pull origin develop
+git merge --no-ff feature/user-dashboard
+git push origin develop
+
+# Clean up feature branch
+git branch -d feature/user-dashboard
+git push origin --delete feature/user-dashboard
+                    </div>
+
+                    <h3>5. Release Phase</h3>
+                    <div class="command-box">
+# Create release branch
+git checkout develop
+git pull origin develop
+git checkout -b release/v1.2.0
+
+# Final testing and bug fixes
+git add .
+git commit -m "fix: resolve release bugs"
+
+# Merge to main and tag
+git checkout main
+git merge --no-ff release/v1.2.0
+git tag -a v1.2.0 -m "Release version 1.2.0"
+git push origin main
+git push origin v1.2.0
+
+# Merge back to develop
+git checkout develop
+git merge --no-ff release/v1.2.0
+git push origin develop
+                    </div>
+                </div>
+
+                <h2>Emergency Hotfix Workflow</h2>
+                <div class="warning-box">
+                    <h3>Critical Production Issue:</h3>
+                    <div class="command-box">
+# Create hotfix from main
+git checkout main
+git pull origin main
+git checkout -b hotfix/critical-security-fix
+
+# Fix the issue
+git add .
+git commit -m "hotfix: patch security vulnerability"
+
+# Test thoroughly
+npm test
+npm run e2e-tests
+
+# Deploy hotfix
+git checkout main
+git merge --no-ff hotfix/critical-security-fix
+git tag -a v1.2.1 -m "Hotfix version 1.2.1"
+git push origin main
+git push origin v1.2.1
+
+# Merge to develop
+git checkout develop
+git merge --no-ff hotfix/critical-security-fix
+git push origin develop
+
+# Clean up
+git branch -d hotfix/critical-security-fix
+                    </div>
+                </div>
+
+                <h2>Daily Developer Commands</h2>
+                <div class="command-box">
+# Morning routine
+git checkout develop
+git pull origin develop
+git checkout -b feature/new-task
+
+# During development
+git status
+git add .
+git commit -m "work in progress"
+git push origin feature/new-task
+
+# End of day
+git add .
+git commit -m "feat: complete task implementation"
+git push origin feature/new-task
+
+# Before creating PR
+git checkout develop
+git pull origin develop
+git checkout feature/new-task
+git rebase develop
+git push --force-with-lease origin feature/new-task
+                </div>
+
+                <h2>Troubleshooting Common Issues</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>🚫 Merge Conflicts</h3>
+                        <div class="command-box">
+# When conflicts occur
+git status
+# Edit conflicted files
+git add &lt;resolved-files&gt;
+git commit -m "resolve: merge conflicts"
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>🔄 Sync Fork</h3>
+                        <div class="command-box">
+# Keep fork updated
+git remote add upstream &lt;original-repo&gt;
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>↩️ Undo Commits</h3>
+                        <div class="command-box">
+# Undo last commit (keep changes)
+git reset --soft HEAD~1
+
+# Undo last commit (discard changes)
+git reset --hard HEAD~1
+
+# Revert specific commit
+git revert &lt;commit-hash&gt;
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Performance & Optimization</h2>
+                <div class="info-box">
+                    <h3>Repository Maintenance:</h3>
+                    <ul>
+                        <li><strong>Regular Cleanup:</strong> Remove unused branches and tags</li>
+                        <li><strong>Git GC:</strong> Run garbage collection periodically</li>
+                        <li><strong>Large Files:</strong> Use Git LFS for binary assets</li>
+                        <li><strong>Shallow Clones:</strong> Use for CI/CD to save time</li>
+                        <li><strong>Partial Clones:</strong> For very large repositories</li>
+                    </ul>
+                </div>
+
+                <div class="command-box">
+# Repository maintenance commands
+git gc --prune=now
+git remote prune origin
+git branch -d $(git branch --merged | grep -v main | grep -v develop)
+git reflog expire --expire=90.days.ago --all
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Add active class to clicked nav item
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Add smooth scrolling and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add click animation to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    let ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+
+                    let x = e.clientX - e.target.offsetLeft;
+                    let y = e.clientY - e.target.offsetTop;
+
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 300);
+                });
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const pages = ['home', 'basics', 'commands', 'scenarios', 'github', 'company', 'workflow'];
+            const currentPage = document.querySelector('.page.active').id;
+            const currentIndex = pages.indexOf(currentPage);
+
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                showPage(pages[currentIndex - 1]);
+                document.querySelector(`[onclick="showPage('${pages[currentIndex - 1]}')"]`).classList.add('active');
+            } else if (e.key === 'ArrowRight' && currentIndex < pages.length - 1) {
+                showPage(pages[currentIndex + 1]);
+                document.querySelector(`[onclick="showPage('${pages[currentIndex + 1]}')"]`).classList.add('active');
+            }
+        });
+    </script>
+
+    <style>
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple-animation 0.3s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-box {
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .command-box::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .command-box::-webkit-scrollbar-track {
+            background: #34495e;
+            border-radius: 4px;
+        }
+
+        .command-box::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+
+        .command-box::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+    </style>
+</body>
+</html>
