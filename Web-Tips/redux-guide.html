@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redux & Redux Toolkit Guide</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-toolkit/1.9.7/redux-toolkit.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin: 20px 0 10px;
+            font-size: 1.3rem;
+        }
+
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .demo-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .state-display {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .counter-display {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            border-left-color: #48bb78;
+        }
+
+        .todo-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .todo-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .concept {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Redux & Redux Toolkit</h1>
+            <p>Complete Guide with Interactive Examples</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <h2>🏗️ What is Redux?</h2>
+                <div class="concept">
+                    <strong>Redux</strong> is a predictable state container for JavaScript applications. It helps you manage application state in a centralized store.
+                </div>
+                
+                <h3>Core Concepts:</h3>
+                <p><strong>Store:</strong> Single source of truth for your app state</p>
+                <p><strong>Actions:</strong> Plain objects describing what happened</p>
+                <p><strong>Reducers:</strong> Pure functions that specify how state changes</p>
+                <p><strong>Dispatch:</strong> Method to send actions to the store</p>
+
+                <h3>Traditional Redux Example:</h3>
+                <div class="code-block">
+// Action Types
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
+
+// Action Creators
+const increment = () => ({ type: INCREMENT });
+const decrement = () => ({ type: DECREMENT });
+
+// Reducer
+const counterReducer = (state = { count: 0 }, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return { count: state.count + 1 };
+    case DECREMENT:
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+// Store
+const store = Redux.createStore(counterReducer);
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚡ Redux Toolkit (RTK)</h2>
+                <div class="concept">
+                    <strong>Redux Toolkit</strong> is the official, recommended way to write Redux logic. It includes utilities to simplify common Redux patterns.
+                </div>
+
+                <h3>Key Features:</h3>
+                <p><strong>createSlice:</strong> Combines actions and reducers</p>
+                <p><strong>configureStore:</strong> Simplified store setup</p>
+                <p><strong>createAsyncThunk:</strong> For async operations</p>
+                <p><strong>Immer:</strong> Built-in immutable updates</p>
+
+                <h3>Redux Toolkit Example:</h3>
+                <div class="code-block">
+// Using createSlice
+const counterSlice = RTK.createSlice({
+  name: 'counter',
+  initialState: { count: 0 },
+  reducers: {
+    increment: (state) => {
+      state.count += 1; // Immer makes this safe!
+    },
+    decrement: (state) => {
+      state.count -= 1;
+    },
+    incrementByAmount: (state, action) => {
+      state.count += action.payload;
+    }
+  }
+});
+
+// Auto-generated actions
+const { increment, decrement, incrementByAmount } = counterSlice.actions;
+
+// Store with RTK
+const store = RTK.configureStore({
+  reducer: {
+    counter: counterSlice.reducer
+  }
+});
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2>🚀 Interactive Demo</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <!-- Counter Demo -->
+                    <div>
+                        <h3>Counter Example</h3>
+                        <div class="counter-display" id="counterValue">0</div>
+                        <div class="demo-controls">
+                            <button class="btn btn-success" onclick="incrementCounter()">+1</button>
+                            <button class="btn btn-danger" onclick="decrementCounter()">-1</button>
+                            <button class="btn btn-primary" onclick="incrementByFive()">+5</button>
+                            <button class="btn btn-primary" onclick="resetCounter()">Reset</button>
+                        </div>
+                        <div class="state-display">
+                            <strong>Current State:</strong>
+                            <pre id="counterState">{ count: 0 }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Todo Demo -->
+                    <div>
+                        <h3>Todo List Example</h3>
+                        <input type="text" class="todo-input" id="todoInput" placeholder="Enter a new todo...">
+                        <button class="btn btn-primary" onclick="addTodo()">Add Todo</button>
+                        <div id="todoList"></div>
+                        <div class="state-display">
+                            <strong>Todos State:</strong>
+                            <pre id="todoState">[]</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Complete Redux Toolkit Setup:</h3>
+                <div class="code-block">
+// Complete setup with multiple slices
+const { createSlice, configureStore } = RTK;
+
+// Counter Slice
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { count: 0 },
+  reducers: {
+    increment: (state) => { state.count += 1; },
+    decrement: (state) => { state.count -= 1; },
+    incrementByAmount: (state, action) => { state.count += action.payload; },
+    reset: (state) => { state.count = 0; }
+  }
+});
+
+// Todo Slice
+const todoSlice = createSlice({
+  name: 'todos',
+  initialState: [],
+  reducers: {
+    addTodo: (state, action) => {
+      state.push({
+        id: Date.now(),
+        text: action.payload,
+        completed: false
+      });
+    },
+    toggleTodo: (state, action) => {
+      const todo = state.find(todo => todo.id === action.payload);
+      if (todo) todo.completed = !todo.completed;
+    },
+    removeTodo: (state, action) => {
+      return state.filter(todo => todo.id !== action.payload);
+    }
+  }
+});
+
+// Configure Store
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer,
+    todos: todoSlice.reducer
+  }
+});
+
+// Export actions
+export const { increment, decrement, incrementByAmount, reset } = counterSlice.actions;
+export const { addTodo, toggleTodo, removeTodo } = todoSlice.actions;
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px;">
+            <h2>📚 Key Differences: Redux vs Redux Toolkit</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3>Traditional Redux</h3>
+                    <ul style="margin-left: 20px;">
+                        <li>More boilerplate code</li>
+                        <li>Manual action type constants</li>
+                        <li>Separate action creators</li>
+                        <li>Manual immutability</li>
+                        <li>Complex store setup</li>
+                        <li>No built-in async handling</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Redux Toolkit</h3>
+                    <ul style="margin-left: 20px;">
+                        <li>Less boilerplate with createSlice</li>
+                        <li>Auto-generated action types</li>
+                        <li>Actions created automatically</li>
+                        <li>Immer for safe mutations</li>
+                        <li>configureStore with good defaults</li>
+                        <li>createAsyncThunk for async ops</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Redux Toolkit Setup
+        const { createSlice, configureStore } = RTK;
+
+        // Counter Slice
+        const counterSlice = createSlice({
+            name: 'counter',
+            initialState: { count: 0 },
+            reducers: {
+                increment: (state) => {
+                    state.count += 1;
+                },
+                decrement: (state) => {
+                    state.count -= 1;
+                },
+                incrementByAmount: (state, action) => {
+                    state.count += action.payload;
+                },
+                reset: (state) => {
+                    state.count = 0;
+                }
+            }
+        });
+
+        // Todo Slice
+        const todoSlice = createSlice({
+            name: 'todos',
+            initialState: [],
+            reducers: {
+                addTodo: (state, action) => {
+                    state.push({
+                        id: Date.now(),
+                        text: action.payload,
+                        completed: false
+                    });
+                },
+                toggleTodo: (state, action) => {
+                    const todo = state.find(todo => todo.id === action.payload);
+                    if (todo) {
+                        todo.completed = !todo.completed;
+                    }
+                },
+                removeTodo: (state, action) => {
+                    return state.filter(todo => todo.id !== action.payload);
+                }
+            }
+        });
+
+        // Configure Store
+        const store = configureStore({
+            reducer: {
+                counter: counterSlice.reducer,
+                todos: todoSlice.reducer
+            }
+        });
+
+        // Actions
+        const { increment, decrement, incrementByAmount, reset } = counterSlice.actions;
+        const { addTodo, toggleTodo, removeTodo } = todoSlice.actions;
+
+        // UI Update Functions
+        function updateCounterUI() {
+            const state = store.getState();
+            document.getElementById('counterValue').textContent = state.counter.count;
+            document.getElementById('counterState').textContent = JSON.stringify(state.counter, null, 2);
+        }
+
+        function updateTodoUI() {
+            const state = store.getState();
+            const todoList = document.getElementById('todoList');
+            const todos = state.todos;
+            
+            todoList.innerHTML = todos.map(todo => `
+                <div class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <span>${todo.text}</span>
+                    <div>
+                        <button class="btn btn-success" onclick="toggleTodoItem(${todo.id})">
+                            ${todo.completed ? '✓' : '○'}
+                        </button>
+                        <button class="btn btn-danger" onclick="removeTodoItem(${todo.id})">×</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('todoState').textContent = JSON.stringify(todos, null, 2);
+        }
+
+        // Subscribe to store changes
+        store.subscribe(() => {
+            updateCounterUI();
+            updateTodoUI();
+        });
+
+        // Counter Functions
+        function incrementCounter() {
+            store.dispatch(increment());
+        }
+
+        function decrementCounter() {
+            store.dispatch(decrement());
+        }
+
+        function incrementByFive() {
+            store.dispatch(incrementByAmount(5));
+        }
+
+        function resetCounter() {
+            store.dispatch(reset());
+        }
+
+        // Todo Functions
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            if (text) {
+                store.dispatch(addTodo(text));
+                input.value = '';
+            }
+        }
+
+        function toggleTodoItem(id) {
+            store.dispatch(toggleTodo(id));
+        }
+
+        function removeTodoItem(id) {
+            store.dispatch(removeTodo(id));
+        }
+
+        // Handle Enter key for todo input
+        document.getElementById('todoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // Initial UI update
+        updateCounterUI();
+        updateTodoUI();
+    </script>
+</body>
+</html>
