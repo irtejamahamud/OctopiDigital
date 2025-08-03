@@ -112,7 +112,7 @@ Respond with ONLY the email body content. Do not include any explanations or add
             </h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Transform your thoughts into polished, professional emails with AI
-              assistance
+              assistance.
             </p>
           </div>
         </div>
