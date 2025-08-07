@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Song Tracker</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(120deg, #f3e8ff 0%, #a78bfa 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        font-family: "Pacifico", cursive, Arial, sans-serif;
+        letter-spacing: 2px;
+        color: #7c3aed;
+        text-shadow: 2px 2px 8px #e9d5ff;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        color: #a78bfa;
+        font-weight: 500;
+      }
+
+      .add-song-section {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        border: 2px solid #a78bfa;
+        background: linear-gradient(135deg, #f3e8ff 0%, #fff 100%);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .btn {
+        background: linear-gradient(90deg, #a78bfa 0%, #667eea 100%);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+      }
+
+      .btn:hover {
+        background: linear-gradient(90deg, #667eea 0%, #a78bfa 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .songs-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
+      }
+
+      .song-card {
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.18),
+          0 2px 8px rgba(118, 75, 162, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        width: 23%;
+        min-width: 260px;
+        max-width: 320px;
+        margin-bottom: 20px;
+        position: relative;
+        border: 2px solid #f3e8ff;
+      }
+
+      .song-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.25),
+          0 4px 16px rgba(118, 75, 162, 0.18);
+        border-color: #a78bfa;
+      }
+
+      .song-info {
+        padding: 22px 18px 18px 18px;
+        position: relative;
+      }
+
+      .song-date {
+        color: #a78bfa;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .song-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #5b21b6;
+        letter-spacing: 0.5px;
+      }
+
+      .song-description {
+        color: #6d28d9;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        font-size: 1rem;
+      }
+
+      .youtube-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+        margin-top: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
+      }
+
+      .youtube-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .no-songs {
+        text-align: center;
+        color: #fff;
+        font-size: 1.2rem;
+        margin-top: 50px;
+        opacity: 0.85;
+        letter-spacing: 1px;
+      }
+
+      .error-message {
+        background: #ff6b6b;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: none;
+      }
+
+      .success-message {
+        background: #51cf66;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: none;
+      }
+
+      .delete-btn {
+        background: none;
+        border: none;
+        color: #f87171;
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s, transform 0.2s;
+        z-index: 2;
+        padding: 4px;
+        border-radius: 50%;
+      }
+
+      .delete-btn:hover {
+        color: #dc2626;
+        background: #f3e8ff;
+        transform: scale(1.15) rotate(-10deg);
+      }
+
+      @media (max-width: 1200px) {
+        .song-card {
+          width: 31%;
+        }
+      }
+      @media (max-width: 900px) {
+        .song-card {
+          width: 47%;
+        }
+      }
+      @media (max-width: 600px) {
+        .song-card {
+          width: 98%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎵 Daily Song Tracker</h1>
+        <p class="subtitle">Store and share your daily musical discoveries</p>
+      </header>
+
+      <div class="add-song-section">
+        <h2 style="margin-bottom: 20px; color: #333">Add Today's Song</h2>
+        <form id="songForm">
+          <div class="form-group">
+            <label for="songTitle">Song Title</label>
+            <input type="text" id="songTitle" name="songTitle" required />
+          </div>
+
+          <div class="form-group">
+            <label for="songDate">Date</label>
+            <input type="date" id="songDate" name="songDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="youtubeUrl">YouTube URL</label>
+            <input
+              type="url"
+              id="youtubeUrl"
+              name="youtubeUrl"
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="songDescription">Description (Optional)</label>
+            <textarea
+              id="songDescription"
+              name="songDescription"
+              placeholder="Tell us why this song made your day..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn">Add Song</button>
+          <div id="errorMessage" class="error-message"></div>
+          <div id="successMessage" class="success-message"></div>
+        </form>
+      </div>
+
+      <div id="songsContainer">
+        <div class="songs-grid" id="songsGrid">
+          <!-- Songs will be displayed here -->
+        </div>
+        <div id="noSongs" class="no-songs">
+          No songs added yet. Add your first song above! 🎶
+        </div>
+      </div>
+    </div>
+
+    <script>
+      class DailySongTracker {
+        constructor() {
+          this.songs = this.loadSongs();
+          this.init();
+        }
+
+        init() {
+          this.setupEventListeners();
+          this.setTodayDate();
+          this.displaySongs();
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById("songForm")
+            .addEventListener("submit", (e) => {
+              e.preventDefault();
+              this.addSong();
+            });
+          // Delegate delete button clicks
+          document
+            .getElementById("songsGrid")
+            .addEventListener("click", (e) => {
+              if (e.target.classList.contains("delete-btn")) {
+                const id = e.target.getAttribute("data-id");
+                this.deleteSong(Number(id));
+              }
+            });
+        }
+
+        setTodayDate() {
+          const today = new Date().toISOString().split("T")[0];
+          document.getElementById("songDate").value = today;
+        }
+
+        addSong() {
+          const formData = new FormData(document.getElementById("songForm"));
+          const songData = {
+            id: Date.now(),
+            title: formData.get("songTitle"),
+            date: formData.get("songDate"),
+            youtubeUrl: formData.get("youtubeUrl"),
+            description: formData.get("songDescription") || "",
+          };
+
+          // Validate YouTube URL and extract video ID
+          const videoId = this.extractYouTubeVideoId(songData.youtubeUrl);
+          if (!videoId) {
+            this.showError("Please enter a valid YouTube URL");
+            return;
+          }
+
+          songData.videoId = videoId;
+
+          // Add song to collection
+          this.songs.unshift(songData); // Add to beginning of array
+          this.saveSongs();
+          this.displaySongs();
+          this.clearForm();
+          this.showSuccess("Song added successfully!");
+        }
+
+        extractYouTubeVideoId(url) {
+          const regExp =
+            /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+          const match = url.match(regExp);
+          return match && match[2].length === 11 ? match[2] : null;
+        }
+
+        displaySongs() {
+          const songsGrid = document.getElementById("songsGrid");
+          const noSongs = document.getElementById("noSongs");
+
+          if (this.songs.length === 0) {
+            songsGrid.innerHTML = "";
+            noSongs.style.display = "block";
+            return;
+          }
+
+          noSongs.style.display = "none";
+          songsGrid.innerHTML = this.songs
+            .map((song) => this.createSongCard(song))
+            .join("");
+        }
+
+        createSongCard(song) {
+          const formattedDate = new Date(song.date).toLocaleDateString(
+            "en-US",
+            {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          );
+          return `
+            <div class="song-card">
+              <button class="delete-btn" data-id="${song.id}" title="Delete">
+                <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="10" fill="#f3e8ff"/>
+                  <path d="M7.5 7.5L12.5 12.5M12.5 7.5L7.5 12.5" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <div class="song-info">
+                <div class="song-date">${formattedDate}</div>
+                <h3 class="song-title">${song.title}</h3>
+                ${
+                  song.description
+                    ? `<p class="song-description">${song.description}</p>`
+                    : ""
+                }
+                <div class="youtube-container">
+                  <iframe src="https://www.youtube.com/embed/${
+                    song.videoId
+                  }" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        deleteSong(id) {
+          this.songs = this.songs.filter((song) => song.id !== id);
+          this.saveSongs();
+          this.displaySongs();
+          this.showSuccess("Song deleted.");
+        }
+
+        loadSongs() {
+          try {
+            const stored = JSON.parse(
+              localStorage.getItem("dailySongs") || "[]"
+            );
+            return Array.isArray(stored) ? stored : [];
+          } catch {
+            return [];
+          }
+        }
+
+        saveSongs() {
+          localStorage.setItem("dailySongs", JSON.stringify(this.songs));
+        }
+
+        clearForm() {
+          document.getElementById("songForm").reset();
+          this.setTodayDate();
+        }
+
+        showError(message) {
+          const errorDiv = document.getElementById("errorMessage");
+          const successDiv = document.getElementById("successMessage");
+          errorDiv.textContent = message;
+          errorDiv.style.display = "block";
+          successDiv.style.display = "none";
+          setTimeout(() => {
+            errorDiv.style.display = "none";
+          }, 5000);
+        }
+
+        showSuccess(message) {
+          const successDiv = document.getElementById("successMessage");
+          const errorDiv = document.getElementById("errorMessage");
+          successDiv.textContent = message;
+          successDiv.style.display = "block";
+          errorDiv.style.display = "none";
+          setTimeout(() => {
+            successDiv.style.display = "none";
+          }, 3000);
+        }
+      }
+
+      // Initialize the app when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        new DailySongTracker();
+      });
+    </script>
+  </body>
+</html>
