@@ -37,7 +37,9 @@ export default function App() {
       <Navbar />
       <div className="max-w-2xl mx-auto py-8 px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-indigo-700">Your Song List</h1>
+          <h1 className="text-3xl font-bold text-indigo-700">
+            Your Song List , Save it here
+          </h1>
           <button
             onClick={handleAdd}
             className="bg-gradient-to-r from-indigo-500 to-pink-500 text-white px-5 py-2 rounded-lg font-semibold shadow hover:scale-105 transition"
