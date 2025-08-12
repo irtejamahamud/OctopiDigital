@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express.js Complete Tutorial - From Zero to Hero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #10b981, #059669);
+            border-radius: 4px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #10b981;
+        }
+
+        .section-header h2 {
+            color: #111827;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-content {
+            padding: 2rem;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* Syntax Highlighting */
+        .keyword { color: #f59e0b; }
+        .string { color: #34d399; }
+        .comment { color: #9ca3af; font-style: italic; }
+        .function { color: #60a5fa; }
+        .variable { color: #f87171; }
+        .method { color: #a78bfa; }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #10b981;
+        }
+
+        .card h3 {
+            color: #059669;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        /* Interactive Elements */
+        .toggle-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .collapsible-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 Express.js Complete Tutorial</h1>
+        <p>From Zero to Hero - Master Node.js Express Framework & Database Integration</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="#intro">Introduction</a>
+                <a href="#setup">Setup</a>
+                <a href="#routing">Routing</a>
+                <a href="#middleware">Middleware</a>
+                <a href="#database">Database</a>
+                <a href="#advanced">Advanced</a>
+                <a href="#deployment">Deployment</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <div class="section-header">
+                <h2>📚 Introduction to Express.js</h2>
+            </div>
+            <div class="section-content">
+                <p>Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It's the most popular Node.js framework and forms the backbone of countless web applications.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 What is Express?</h3>
+                        <p>A fast, unopinionated, minimalist web framework for Node.js that provides a thin layer of fundamental web application features.</p>
+                    </div>
+                    <div class="card">
+                        <h3>⚡ Why Express?</h3>
+                        <p>Lightweight, flexible, extensive middleware support, large community, and perfect for building APIs and web applications.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔧 Key Features</h3>
+                        <p>Routing, middleware, templating engines, error handling, static file serving, and database integration.</p>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Fun Fact:</strong> Express.js was created by TJ Holowaychuk in 2010 and is now maintained by the Node.js Foundation.
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup Section -->
+        <section id="setup" class="section">
+            <div class="section-header">
+                <h2>⚙️ Setup & Installation</h2>
+            </div>
+            <div class="section-content">
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>Node.js (version 14 or higher)</li>
+                    <li>npm or yarn package manager</li>
+                    <li>Basic JavaScript knowledge</li>
+                </ul>
+
+                <h3>Installation Steps</h3>
+                
+                <div class="code-block" data-lang="bash">
+<pre><span class="comment"># 1. Create project directory</span>
+mkdir my-express-app
+cd my-express-app
+
+<span class="comment"># 2. Initialize npm</span>
+npm init -y
+
+<span class="comment"># 3. Install Express</span>
+npm install express
+
+<span class="comment"># 4. Install development dependencies</span>
+npm install --save-dev nodemon</pre>
+                </div>
+
+                <h3>Basic Express Server</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// app.js</span>
+<span class="keyword">const</span> <span class="variable">express</span> = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> <span class="variable">app</span> = <span class="function">express</span>();
+<span class="keyword">const</span> <span class="variable">PORT</span> = <span class="variable">process.env.PORT</span> || <span class="string">3000</span>;
+
+<span class="comment">// Basic route</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">send</span>(<span class="string">'Hello World! 🌍'</span>);
+});
+
+<span class="comment">// Start server</span>
+<span class="variable">app</span>.<span class="method">listen</span>(<span class="variable">PORT</span>, () => {
+    <span class="variable">console</span>.<span class="method">log</span>(<span class="string">`Server running on http://localhost:</span><span class="variable">${PORT}</span><span class="string">`</span>);
+});</pre>
+                </div>
+
+                <h3>Package.json Scripts</h3>
+                <div class="code-block" data-lang="json">
+<pre>{
+  <span class="string">"scripts"</span>: {
+    <span class="string">"start"</span>: <span class="string">"node app.js"</span>,
+    <span class="string">"dev"</span>: <span class="string">"nodemon app.js"</span>,
+    <span class="string">"test"</span>: <span class="string">"jest"</span>
+  }
+}</pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>🎉 Success!</strong> Run <code>npm run dev</code> to start your development server with auto-reload.
+                </div>
+            </div>
+        </section>
+
+        <!-- Routing Section -->
+        <section id="routing" class="section">
+            <div class="section-header">
+                <h2>🛣️ Routing</h2>
+            </div>
+            <div class="section-content">
+                <p>Routing defines how an application responds to client requests to specific endpoints.</p>
+
+                <h3>HTTP Methods</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// GET request</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/users'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">message</span>: <span class="string">'Get all users'</span> });
+});
+
+<span class="comment">// POST request</span>
+<span class="variable">app</span>.<span class="method">post</span>(<span class="string">'/users'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">message</span>: <span class="string">'Create new user'</span> });
+});
+
+<span class="comment">// PUT request</span>
+<span class="variable">app</span>.<span class="method">put</span>(<span class="string">'/users/:id'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">message</span>: <span class="string">`Update user </span><span class="variable">${req.params.id}</span><span class="string">`</span> });
+});
+
+<span class="comment">// DELETE request</span>
+<span class="variable">app</span>.<span class="method">delete</span>(<span class="string">'/users/:id'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">message</span>: <span class="string">`Delete user </span><span class="variable">${req.params.id}</span><span class="string">`</span> });
+});</pre>
+                </div>
+
+                <h3>Route Parameters</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// Route parameters</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/users/:id'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="keyword">const</span> <span class="variable">userId</span> = <span class="variable">req.params.id</span>;
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">userId</span> });
+});
+
+<span class="comment">// Multiple parameters</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/users/:id/posts/:postId'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="keyword">const</span> { <span class="variable">id</span>, <span class="variable">postId</span> } = <span class="variable">req.params</span>;
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">userId</span>: <span class="variable">id</span>, <span class="variable">postId</span> });
+});
+
+<span class="comment">// Optional parameters</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/posts/:year/:month?'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>(<span class="variable">req.params</span>);
+});</pre>
+                </div>
+
+                <h3>Query Parameters</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// Query parameters: /search?q=express&limit=10</span>
+<span class="variable">app</span>.<span class="method">get</span>(<span class="string">'/search'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="keyword">const</span> { <span class="variable">q</span>, <span class="variable">limit</span> = <span class="string">20</span>, <span class="variable">page</span> = <span class="string">1</span> } = <span class="variable">req.query</span>;
+    <span class="variable">res</span>.<span class="method">json</span>({
+        <span class="variable">query</span>: <span class="variable">q</span>,
+        <span class="variable">limit</span>: <span class="function">parseInt</span>(<span class="variable">limit</span>),
+        <span class="variable">page</span>: <span class="function">parseInt</span>(<span class="variable">page</span>)
+    });
+});</pre>
+                </div>
+
+                <h3>Express Router</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// routes/users.js</span>
+<span class="keyword">const</span> <span class="variable">express</span> = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> <span class="variable">router</span> = <span class="variable">express</span>.<span class="method">Router</span>();
+
+<span class="comment">// Middleware for this router</span>
+<span class="variable">router</span>.<span class="method">use</span>((<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+    <span class="variable">console</span>.<span class="method">log</span>(<span class="string">'User routes middleware'</span>);
+    <span class="function">next</span>();
+});
+
+<span class="variable">router</span>.<span class="method">get</span>(<span class="string">'/'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">users</span>: [] });
+});
+
+<span class="variable">router</span>.<span class="method">post</span>(<span class="string">'/'</span>, (<span class="variable">req</span>, <span class="variable">res</span>) => {
+    <span class="variable">res</span>.<span class="method">json</span>({ <span class="variable">message</span>: <span class="string">'User created'</span> });
+});
+
+<span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">router</span>;
+
+<span class="comment">// app.js - Using the router</span>
+<span class="keyword">const</span> <span class="variable">userRoutes</span> = <span class="function">require</span>(<span class="string">'./routes/users'</span>);
+<span class="variable">app</span>.<span class="method">use</span>(<span class="string">'/api/users'</span>, <span class="variable">userRoutes</span>);</pre>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Purpose</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GET</td>
+                                <td>Retrieve data</td>
+                                <td>app.get('/users', handler)</td>
+                            </tr>
+                            <tr>
+                                <td>POST</td>
+                                <td>Create new resource</td>
+                                <td>app.post('/users', handler)</td>
+                            </tr>
+                            <tr>
+                                <td>PUT</td>
+                                <td>Update entire resource</td>
+                                <td>app.put('/users/:id', handler)</td>
+                            </tr>
+                            <tr>
+                                <td>PATCH</td>
+                                <td>Partial update</td>
+                                <td>app.patch('/users/:id', handler)</td>
+                            </tr>
+                            <tr>
+                                <td>DELETE</td>
+                                <td>Remove resource</td>
+                                <td>app.delete('/users/:id', handler)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middleware Section -->
+        <section id="middleware" class="section">
+            <div class="section-header">
+                <h2>🔧 Middleware</h2>
+            </div>
+            <div class="section-content">
+                <p>Middleware functions execute during the request-response cycle and can modify request/response objects, end the request-response cycle, or call the next middleware.</p>
+
+                <h3>Built-in Middleware</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// Body parser middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="variable">express</span>.<span class="method">json</span>()); <span class="comment">// Parse JSON bodies</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="variable">express</span>.<span class="method">urlencoded</span>({ <span class="variable">extended</span>: <span class="keyword">true</span> })); <span class="comment">// Parse URL-encoded bodies</span>
+
+<span class="comment">// Static files middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="variable">express</span>.<span class="method">static</span>(<span class="string">'public'</span>)); <span class="comment">// Serve static files</span>
+
+<span class="comment">// CORS middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>((<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+    <span class="variable">res</span>.<span class="method">header</span>(<span class="string">'Access-Control-Allow-Origin'</span>, <span class="string">'*'</span>);
+    <span class="variable">res</span>.<span class="method">header</span>(<span class="string">'Access-Control-Allow-Headers'</span>, <span class="string">'Content-Type'</span>);
+    <span class="function">next</span>();
+});</pre>
+                </div>
+
+                <h3>Custom Middleware</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// Logging middleware</span>
+<span class="keyword">const</span> <span class="variable">logger</span> = (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+    <span class="keyword">const</span> <span class="variable">timestamp</span> = <span class="keyword">new</span> <span class="function">Date</span>().<span class="method">toISOString</span>();
+    <span class="variable">console</span>.<span class="method">log</span>(<span class="string">`</span><span class="variable">${timestamp}</span><span class="string"> - </span><span class="variable">${req.method}</span><span class="string"> </span><span class="variable">${req.url}</span><span class="string">`</span>);
+    <span class="function">next</span>(); <span class="comment">// Important: call next() to continue</span>
+};
+
+<span class="comment">// Authentication middleware</span>
+<span class="keyword">const</span> <span class="variable">authenticate</span> = (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+    <span class="keyword">const</span> <span class="variable">token</span> = <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">authorization</span>;
+    
+    <span class="keyword">if</span> (!<span class="variable">token</span>) {
+        <span class="keyword">return</span> <span class="variable">res</span>.<span class="method">status</span>(<span class="string">401</span>).<span class="method">json</span>({ <span class="variable">error</span>: <span class="string">'No token provided'</span> });
+    }
+    
+    <span class="comment">// Verify token logic here</span>
+    <span class="variable">req</span>.<span class="variable">user</span> = { <span class="variable">id</span>: <span class="string">1</span>, <span class="variable">name</span>: <span class="string">'John Doe'</span> }; <span class="comment">// Decoded token data</span>
+    <span class="function">next</span>();
+};
+
+<span class="comment">// Apply middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="variable">logger</span>);
+<span class="variable">app</span>.<span class="method">use</span>(<span class="string">'/api/protected'</span>, <span class="variable">authenticate</span>);</pre>
+                </div>
+
+                <h3>Third-party Middleware</h3>
+                <div class="code-block" data-lang="bash">
+<pre><span class="comment"># Install popular middleware packages</span>
+npm install cors helmet morgan compression cookie-parser</pre>
+                </div>
+
+                <div class="code-block" data-lang="javascript">
+<pre><span class="keyword">const</span> <span class="variable">cors</span> = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> <span class="variable">helmet</span> = <span class="function">require</span>(<span class="string">'helmet'</span>);
+<span class="keyword">const</span> <span class="variable">morgan</span> = <span class="function">require</span>(<span class="string">'morgan'</span>);
+<span class="keyword">const</span> <span class="variable">compression</span> = <span class="function">require</span>(<span class="string">'compression'</span>);
+
+<span class="comment">// Security middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="function">helmet</span>()); <span class="comment">// Security headers</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="function">cors</span>()); <span class="comment">// Enable CORS</span>
+
+<span class="comment">// Performance middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="function">compression</span>()); <span class="comment">// Gzip compression</span>
+
+<span class="comment">// Logging middleware</span>
+<span class="variable">app</span>.<span class="method">use</span>(<span class="function">morgan</span>(<span class="string">'combined'</span>)); <span class="comment">// HTTP request logger</span></pre>
+                </div>
+
+                <h3>Error Handling Middleware</h3>
+                <div class="code-block" data-lang="javascript">
+<pre><span class="comment">// Error handling middleware (must be last)</span>
+<span class
