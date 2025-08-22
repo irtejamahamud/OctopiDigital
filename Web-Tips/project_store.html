@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CreatorHub — Portfolio & Store</title>
+  <meta name="description" content="Modern one-page portfolio + digital products store template." />
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#0f1520; --muted:#a7b0c0; --text:#e9eef5; --brand:#6ee7b7; --brand-2:#60a5fa; --card:#111827; --ring:#1f2937;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;scroll-behavior:smooth;background:linear-gradient(180deg,#0a0e13 0%, #0b0f14 60%, #0c1118 100%);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:40;background:rgba(11,15,20,.75);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #111722}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}
+    .brand .dot{width:12px;height:12px;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 0 20px rgba(110,231,183,.6)}
+    nav ul{display:flex;gap:14px;list-style:none;padding:0;margin:0;flex-wrap:wrap}
+    nav a{padding:10px 14px;border-radius:12px;border:1px solid transparent}
+    nav a:hover{border-color:#1e2633;background:#0d1420}
+
+    .cart-btn{position:relative;padding:10px 14px;border-radius:12px;border:1px solid #1e2633;background:#0e1522}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:var(--brand-2);color:#021024;border-radius:999px;min-width:20px;height:20px;display:grid;place-items:center;font-size:12px;font-weight:700;padding:0 6px;border:2px solid #0b0f14}
+
+    /* Hero */
+    .hero{padding:72px 0 48px;border-bottom:1px solid #0f1728;background:radial-gradient(1200px 400px at 50% -10%,rgba(96,165,250,.15),transparent)}
+    .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;background:#0f1624;border:1px solid #1d2740;color:var(--muted);padding:6px 10px;border-radius:999px;font-size:13px}
+    .title{font-size:44px;line-height:1.15;margin:14px 0 10px}
+    .title b{background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);max-width:60ch}
+    .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .btn{padding:12px 16px;border-radius:14px;border:1px solid #1f2a3d;background:#0e1522;color:#e9eef5;font-weight:600}
+    .btn:hover{transform:translateY(-1px);transition:transform .15s ease}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#07131b;border-color:transparent}
+
+    /* Sections */
+    section{padding:54px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+    .section-head h2{margin:0;font-size:26px}
+    .muted{color:var(--muted)}
+
+    /* Grids */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{grid-column:span 4;background:linear-gradient(180deg,#0f1624,#0c121b);border:1px solid #1a2234;border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;min-height:100%}
+    .card .thumb{height:160px;border-radius:14px;background:linear-gradient(180deg,#0f172a,#0b1220);display:grid;place-items:center;border:1px dashed #1f2937;font-size:13px;color:#92a1b6}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:12px;background:#0f1624;border:1px solid #1a2234;color:#9fb0c8;padding:4px 8px;border-radius:999px}
+    .card .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+    /* Inputs */
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    .input, select{background:#0e1522;border:1px solid #1d2740;color:#e9eef5;border-radius:12px;padding:10px 12px;min-width:240px}
+
+    /* Store */
+    .price{font-weight:800}
+    .add{padding:10px 12px;border-radius:12px;border:1px solid #1d2740;background:#0e1522}
+    .add:hover{background:#121c2e}
+
+    /* Services */
+    .service{grid-column:span 4;background:linear-gradient(180deg,#0f1624,#0c121b);border:1px solid #1a2234;border-radius:var(--radius);padding:18px}
+
+    /* Contact */
+    form{display:grid;gap:12px;max-width:680px}
+    textarea{min-height:140px}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid #0f1728;color:#8fa1ba}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(2,6,14,.6);backdrop-filter:blur(4px)}
+    .modal.active{display:grid}
+    .sheet{width:min(820px,92vw);background:#0d1420;border:1px solid #1d2740;border-radius:22px;padding:18px}
+    .sheet header{position:unset;background:transparent;border:none}
+    .sheet h3{margin:6px 0 0}
+    .sheet .items{display:grid;gap:10px;margin:14px 0}
+    .item{display:flex;align-items:center;justify-content:space-between;border:1px solid #1b2436;border-radius:14px;padding:10px}
+    .actions{display:flex;gap:10px;justify-content:end}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-inner{grid-template-columns:1fr}
+      .card,.service{grid-column:span 6}
+    }
+    @media (max-width: 640px){
+      .card,.service{grid-column:span 12}
+      .title{font-size:34px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="dot"></span> CreatorHub</div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#store">Store</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="cart-btn" id="openCart" aria-label="Open cart">🛒 Cart <span id="cartCount" class="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">Build • Ship • Sell</span>
+        <h1 class="title">Showcase your <b>projects</b>, sell <b>digital products</b>, and book <b>services</b> — all in one place.</h1>
+        <p class="sub">This single-file template gives you a clean, fast starting point. Customize the content, hook up payments (Stripe, SSLCOMMERZ, or manual), and launch.</p>
+        <div class="cta">
+          <a class="btn primary" href="#store">Shop Templates</a>
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Get a Quote</a>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="padding:24px;gap:16px">
+          <div class="thumb" style="height:200px">Live preview area</div>
+          <div class="row"><strong>One-file setup</strong><span class="tag">HTML/CSS/JS</span></div>
+          <p class="muted">Drop this into any static host (GitHub Pages, Netlify, Vercel). Replace items below with your real content.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Featured Projects</h2>
+          <p class="muted">Case studies and live demos of what you build.</p>
+        </div>
+        <div class="controls">
+          <input id="projectSearch" class="input" placeholder="Search projects (e.g., React, ML, API)" />
+          <select id="projectFilter">
+            <option value="">All Tags</option>
+            <option>React</option>
+            <option>Next.js</option>
+            <option>Python</option>
+            <option>ML</option>
+            <option>Laravel</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" id="projectGrid">
+        <!-- Project Card -->
+        <article class="card" data-tags="React API" data-title="Task Tracker React App">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>Task Tracker React App</h3>
+          <p class="muted">A blazing-fast task manager with offline support and keyboard shortcuts.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">API</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Live Demo</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+
+        <article class="card" data-tags="Next.js Tailwind" data-title="Portfolio v3 (Next.js)">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>Portfolio v3 (Next.js)</h3>
+          <p class="muted">SEO-optimized personal site with MDX blog and image optimization.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">Tailwind</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Live Demo</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+
+        <article class="card" data-tags="Python ML" data-title="Job Recommender (NLP)">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>Job Recommender (NLP)</h3>
+          <p class="muted">An NLP-powered recommendation system trained on job descriptions and resumes.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">ML</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Live Demo</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+
+        <article class="card" data-tags="Laravel API" data-title="E‑Commerce Backend (Laravel)">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>E‑Commerce Backend (Laravel)</h3>
+          <p class="muted">Production-ready REST API with auth, products, orders, and payment hooks.</p>
+          <div class="tags"><span class="tag">Laravel</span><span class="tag">API</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Docs</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+
+        <article class="card" data-tags="Python API" data-title="YouTube Downloader (Streamlit)">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>YouTube Downloader (Streamlit)</h3>
+          <p class="muted">Video/audio downloader with quality options and progress updates.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">API</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Live Demo</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+
+        <article class="card" data-tags="React ML" data-title="Image Classifier UI">
+          <div class="thumb">Screenshot / GIF</div>
+          <h3>Image Classifier UI</h3>
+          <p class="muted">Simple drag‑and‑drop interface for testing image models in-browser.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">ML</span></div>
+          <div class="row"><a class="btn" href="#" target="_blank">Live Demo</a><a class="btn" href="#" target="_blank">Source</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Services</h2>
+          <p class="muted">Hire me for custom work and ongoing support.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="service">
+          <h3>Custom Web App</h3>
+          <p class="muted">React/Next.js, REST/GraphQL APIs, authentication, dashboards, and deployments.</p>
+          <p><b>Starts at $899</b></p>
+          <a class="btn" href="#contact">Request Quote</a>
+        </div>
+        <div class="service">
+          <h3>AI/NLP Integration</h3>
+          <p class="muted">Text embeddings, topic modeling, recommenders, and workflow automation.</p>
+          <p><b>Starts at $1099</b></p>
+          <a class="btn" href="#contact">Request Quote</a>
+        </div>
+        <div class="service">
+          <h3>Maintenance Plan</h3>
+          <p class="muted">Monthly updates, uptime checks, bug fixes, and performance tuning.</p>
+          <p><b>From $99/mo</b></p>
+          <a class="btn" href="#contact">Subscribe</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store -->
+  <section id="store">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Digital Products</h2>
+          <p class="muted">Downloadable templates, starter kits, and components. Instant delivery after checkout.</p>
+        </div>
+        <div class="controls">
+          <input id="productSearch" class="input" placeholder="Search products (e.g., template, next, ui)" />
+          <select id="productSort">
+            <option value="popular">Sort: Popular</option>
+            <option value="low">Price: Low → High</option>
+            <option value="high">Price: High → Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" id="productGrid">
+        <article class="card" data-title="SaaS Landing Page" data-price="29" data-pop="3">
+          <div class="thumb">Preview image</div>
+          <h3>SaaS Landing Page</h3>
+          <p class="muted">Clean, responsive landing built with semantic HTML & utility CSS.</p>
+          <div class="row"><span class="price">$29</span><button class="add" data-id="saas-landing">Add to Cart</button></div>
+        </article>
+
+        <article class="card" data-title="Next.js Portfolio Kit" data-price="39" data-pop="1">
+          <div class="thumb">Preview image</div>
+          <h3>Next.js Portfolio Kit</h3>
+          <p class="muted">SEO-ready portfolio with blog (MDX) and image optimization.</p>
+          <div class="row"><span class="price">$39</span><button class="add" data-id="next-portfolio">Add to Cart</button></div>
+        </article>
+
+        <article class="card" data-title="UI Components Pack" data-price="19" data-pop="2">
+          <div class="thumb">Preview image</div>
+          <h3>UI Components Pack</h3>
+          <p class="muted">Card, table, modal, and form components in vanilla HTML/CSS.</p>
+          <div class="row"><span class="price">$19</span><button class="add" data-id="ui-pack">Add to Cart</button></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Contact</h2>
+          <p class="muted">Questions, custom work, or partnership inquiries — I’d love to hear from you.</p>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.'); this.reset();">
+        <input class="input" placeholder="Your name" required />
+        <input type="email" class="input" placeholder="Email address" required />
+        <textarea class="input" placeholder="Tell me about your project…" required></textarea>
+        <div class="actions">
+          <button class="btn primary" type="submit">Send Message</button>
+          <a class="btn" href="mailto:hello@example.com">Email Directly</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> CreatorHub. All rights reserved.</div>
+      <div class="muted">Built with ♥ — deploy anywhere.</div>
+    </div>
+  </footer>
+
+  <!-- Cart Modal -->
+  <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="sheet">
+      <div class="container">
+        <div class="section-head">
+          <h3 id="cartTitle">Your Cart</h3>
+          <button class="btn" id="closeCart">Close</button>
+        </div>
+        <div id="cartItems" class="items"></div>
+        <div class="row" style="justify-content:space-between">
+          <strong>Total: <span id="cartTotal">$0</span></strong>
+          <div class="actions">
+            <button class="btn" id="clearCart">Clear</button>
+            <button class="btn primary" id="checkout">Checkout</button>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:10px">Note: Connect payments by wiring the <b>Checkout</b> button to Stripe, SSLCOMMERZ, or your preferred gateway.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utilities
+    const $ = (q, ctx=document) => ctx.querySelector(q);
+    const $$ = (q, ctx=document) => Array.from(ctx.querySelectorAll(q));
+
+    // Year
+    $('#year').textContent = new Date().getFullYear();
+
+    // Project search & filter
+    const projectSearch = $('#projectSearch');
+    const projectFilter = $('#projectFilter');
+    const projectCards = $$('#projectGrid .card');
+
+    function filterProjects(){
+      const q = projectSearch.value.toLowerCase().trim();
+      const tag = projectFilter.value.toLowerCase().trim();
+      projectCards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const tags = card.dataset.tags.toLowerCase();
+        const hit = (!q || title.includes(q) || tags.includes(q)) && (!tag || tags.includes(tag));
+        card.style.display = hit ? '' : 'none';
+      });
+    }
+    projectSearch.addEventListener('input', filterProjects);
+    projectFilter.addEventListener('change', filterProjects);
+
+    // Store: search, sort, cart
+    const productSearch = $('#productSearch');
+    const productSort = $('#productSort');
+    const productGrid = $('#productGrid');
+    const productCards = () => $$('#productGrid .card');
+
+    function applyProductFilters(){
+      const q = productSearch.value.toLowerCase().trim();
+      productCards().forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        card.style.display = !q || title.includes(q) ? '' : 'none';
+      });
+      sortProducts();
+    }
+
+    function sortProducts(){
+      const cards = productCards();
+      const frag = document.createDocumentFragment();
+      const mode = productSort.value;
+      const arr = cards.sort((a,b)=>{
+        const pa = +a.dataset.price, pb = +b.dataset.price;
+        const popA = +a.dataset.pop, popB = +b.dataset.pop;
+        if(mode==='low') return pa - pb;
+        if(mode==='high') return pb - pa;
+        return popA - popB; // popular: smaller = more popular
+      });
+      arr.forEach(c=>frag.appendChild(c));
+      productGrid.appendChild(frag);
+    }
+
+    productSearch.addEventListener('input', applyProductFilters);
+    productSort.addEventListener('change', applyProductFilters);
+
+    // Cart
+    const CART_KEY = 'creatorhub_cart_v1';
+    const loadCart = () => JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    const saveCart = (items) => localStorage.setItem(CART_KEY, JSON.stringify(items));
+
+    function getProductDataById(id){
+      const el = $(`[data-id="${id}"]`)?.closest('.card');
+      if(!el) return null;
+      return {
+        id,
+        title: el.dataset.title || el.querySelector('h3')?.textContent?.trim(),
+        price: +el.dataset.price || 0,
+      };
+    }
+
+    function renderCart(){
+      const items = loadCart();
+      const wrap = $('#cartItems');
+      wrap.innerHTML = '';
+      if(items.length===0){ wrap.innerHTML = '<p class="muted">Your cart is empty.</p>'; }
+      let total = 0;
+      items.forEach((it,i)=>{
+        total += it.price * it.qty;
+        const row = document.createElement('div');
+        row.className = 'item';
+        row.innerHTML = `
+          <div><strong>${it.title}</strong><div class="muted">$${it.price} × ${it.qty}</div></div>
+          <div class="actions">
+            <button class="btn" data-dec="${i}">−</button>
+            <button class="btn" data-inc="${i}">+</button>
+            <button class="btn" data-del="${i}">Remove</button>
+          </div>`;
+        wrap.appendChild(row);
+      });
+      $('#cartTotal').textContent = `$${total.toFixed(2)}`;
+      updateCartCount();
+    }
+
+    function updateCartCount(){
+      const items = loadCart();
+      const count = items.reduce((n,i)=>n+i.qty,0);
+      $('#cartCount').textContent = count;
+    }
+
+    function addToCart(id){
+      const items = loadCart();
+      const data = getProductDataById(id);
+      if(!data) return;
+      const idx = items.findIndex(i=>i.id===id);
+      if(idx>-1){ items[idx].qty += 1; }
+      else { items.push({...data, qty:1}); }
+      saveCart(items); renderCart();
+    }
+
+    document.addEventListener('click', (e)=>{
+      if(e.target.matches('.add')){
+        addToCart(e.target.dataset.id);
+      }
+      if(e.target.dataset.inc){
+        const i = +e.target.dataset.inc; const items = loadCart(); items[i].qty++; saveCart(items); renderCart();
+      }
+      if(e.target.dataset.dec){
+        const i = +e.target.dataset.dec; const items = loadCart(); items[i].qty = Math.max(1, items[i].qty-1); saveCart(items); renderCart();
+      }
+      if(e.target.dataset.del){
+        const i = +e.target.dataset.del; const items = loadCart(); items.splice(i,1); saveCart(items); renderCart();
+      }
+    });
+
+    // Modal controls
+    const cartModal = $('#cartModal');
+    $('#openCart').addEventListener('click', ()=>{ cartModal.classList.add('active'); renderCart(); });
+    $('#closeCart').addEventListener('click', ()=> cartModal.classList.remove('active'));
+    $('#clearCart').addEventListener('click', ()=>{ saveCart([]); renderCart(); });
+    $('#checkout').addEventListener('click', ()=>{
+      const items = loadCart();
+      if(!items.length) return alert('Your cart is empty.');
+      // Replace with real payment flow
+      alert('Proceeding to checkout... Connect this to Stripe/SSLCOMMERZ webhook.');
+    });
+
+    // Init
+    updateCartCount();
+    applyProductFilters();
+  </script>
+</body>
+</html>
