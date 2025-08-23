@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSA Learning Portal • Basics → Advanced</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --bg-2: #0f172a;
+        --surface: #111827;
+        --muted: #94a3b8;
+        --text: #e5e7eb;
+        --primary: #4f46e5;
+        --primary-2: #22d3ee;
+        --accent: #22c55e;
+        --danger: #ef4444;
+        --border: #233049;
+        --code-bg: #0a0f1a;
+        --code-border: #1f2937;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        --card-hover: rgba(79, 70, 229, 0.08);
+        --sidebar-blur: 10px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background: linear-gradient(180deg, var(--bg), var(--bg-2));
+        color: var(--text);
+        min-height: 100vh;
+        min-width: 100vw;
+        overflow: hidden;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        height: 100vh;
+        width: 100vw;
+        min-height: 100vh;
+        min-width: 100vw;
+        overflow: hidden;
+      }
+      aside {
+        border-right: 1px solid var(--border);
+        padding: 14px;
+        overflow: auto;
+        background: rgba(17, 24, 39, 0.5);
+        backdrop-filter: blur(6px);
+        height: 100vh;
+        min-height: 100vh;
+        box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(var(--sidebar-blur));
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 6px;
+        border-radius: 14px;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          var(--primary),
+          var(--primary-2)
+        );
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+        border: 2px solid var(--border);
+      }
+      .brand h1 {
+        font-size: 16px;
+        margin: 0;
+      }
+      .search {
+        position: relative;
+        margin: 12px 0 8px;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 36px 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #0b1220;
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(34, 211, 238, 0.08);
+        transition: border-color 0.2s;
+      }
+      .search input:focus {
+        border-color: var(--primary);
+        outline: none;
+      }
+      .search .icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.7;
+      }
+      .nav-section {
+        margin-top: 12px;
+      }
+      details {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 10px 12px;
+        background: #0b1322;
+        font-weight: 600;
+        outline: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      .topic-list {
+        padding: 8px 10px;
+        display: grid;
+        gap: 6px;
+      }
+      .topic {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        cursor: pointer;
+        background: rgba(15, 23, 42, 0.5);
+        transition: background 0.18s, border-color 0.18s;
+      }
+      .topic:hover {
+        border-color: var(--primary);
+        background: var(--card-hover);
+        color: var(--primary);
+      }
+      .badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: rgba(34, 211, 238, 0.08);
+        font-weight: 500;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        background: linear-gradient(
+          180deg,
+          rgba(11, 18, 32, 1),
+          rgba(11, 18, 32, 0.8)
+        );
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        gap: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .breadcrumbs {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+      }
+      .btn {
+        border: 1px solid var(--border);
+        background: #0b1322;
+        color: var(--text);
+        padding: 8px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.18s, border-color 0.18s, color 0.18s;
+      }
+      .btn:hover {
+        border-color: var(--primary);
+        background: var(--card-hover);
+        color: var(--primary);
+      }
+
+      main {
+        overflow: auto;
+        height: 100vh;
+        min-height: 100vh;
+        background: transparent;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 32px;
+        min-height: calc(100vh - 60px);
+        /* Remove top margin for full screen */
+      }
+
+      .hero {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 18px;
+        background: radial-gradient(
+            1200px 400px at 10% -20%,
+            rgba(79, 70, 229, 0.15),
+            transparent
+          ),
+          radial-gradient(
+            1000px 400px at 90% 120%,
+            rgba(34, 211, 238, 0.12),
+            transparent
+          );
+        margin-top: 24px;
+        box-shadow: var(--shadow);
+        transition: box-shadow 0.18s;
+      }
+      .hero:hover {
+        box-shadow: 0 12px 32px rgba(79, 70, 229, 0.18);
+      }
+      .hero h2 {
+        margin: 6px 0 8px;
+      }
+      .hero p {
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        margin-top: 18px;
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+        background: #0b1322;
+        box-shadow: 0 2px 12px rgba(34, 211, 238, 0.06);
+        transition: box-shadow 0.18s, border-color 0.18s, background 0.18s;
+        cursor: pointer;
+      }
+      .card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+        background: var(--card-hover);
+        color: var(--primary);
+      }
+      .chip {
+        display: inline-block;
+        padding: 3px 8px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 12px;
+        color: var(--muted);
+        background: rgba(34, 197, 94, 0.08);
+        font-weight: 500;
+      }
+
+      .article h2 {
+        margin: 8px 0;
+      }
+      .article p {
+        color: #d6d8dc;
+        line-height: 1.6;
+      }
+      .article ul {
+        margin: 8px 0 8px 22px;
+      }
+      .article li {
+        margin: 6px 0;
+      }
+
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--code-border);
+        border-radius: 14px;
+        padding: 12px;
+        overflow: auto;
+        box-shadow: 0 2px 8px rgba(34, 211, 238, 0.08);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+      }
+      .copy {
+        float: right;
+        font-size: 12px;
+        border: 1px solid var(--border);
+        padding: 4px 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        background: rgba(34, 211, 238, 0.08);
+        transition: border-color 0.18s, background 0.18s;
+      }
+      .copy:hover {
+        border-color: var(--primary);
+        background: var(--card-hover);
+        color: var(--primary);
+      }
+
+      .note {
+        border-left: 3px solid var(--primary);
+        padding: 10px 12px;
+        background: rgba(79, 70, 229, 0.08);
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+      }
+      .success {
+        border-left-color: var(--accent);
+        background: rgba(34, 197, 94, 0.08);
+      }
+      .warn {
+        border-left-color: #f59e0b;
+        background: rgba(245, 158, 11, 0.08);
+      }
+
+      footer {
+        color: var(--muted);
+        padding: 20px;
+        text-align: center;
+        margin-top: 32px;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+      }
+
+      .toc {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .toc a {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        border-radius: 999px;
+        color: var(--text);
+        text-decoration: none;
+        transition: background 0.18s, border-color 0.18s, color 0.18s;
+      }
+      .toc a:hover {
+        border-color: var(--primary);
+        background: var(--card-hover);
+        color: var(--primary);
+      }
+
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        aside {
+          position: fixed;
+          inset: 0 40% 0 0;
+          max-width: Min(360px, 85vw);
+          transform: translateX(-100%);
+          transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 50;
+        }
+        aside.open {
+          transform: none;
+        }
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.45);
+          backdrop-filter: blur(4px);
+          display: none;
+        }
+        .overlay.show {
+          display: block;
+        }
+        main {
+          height: auto;
+          min-height: 100vh;
+        }
+        .container {
+          padding: 0 12px;
+        }
+        .grid {
+          gap: 14px;
+        }
+      }
+      /* Hide scrollbars for full screen look */
+      ::-webkit-scrollbar {
+        width: 8px;
+        background: var(--bg-2);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside id="sidebar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <h1>DSA Portal</h1>
+        </div>
+        <div class="search">
+          <input id="search" placeholder="Search topics (e.g., DP, graph)…" />
+          <span class="icon">⌕</span>
+        </div>
+
+        <nav id="nav" class="nav-section"></nav>
+        <p style="color: var(--muted); font-size: 12px; padding: 6px 8px">
+          Tip: use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>K</kbd> to jump to
+          search
+        </p>
+      </aside>
+
+      <div class="overlay" id="overlay"></div>
+
+      <main>
+        <header>
+          <div style="display: flex; align-items: center; gap: 10px">
+            <button class="btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+            <div class="breadcrumbs" id="breadcrumbs">Home</div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="themeBtn">Toggle Theme</button>
+            <a class="btn" href="#curriculum">Curriculum</a>
+            <a class="btn" href="#practice">Practice</a>
+            <a class="btn" href="#cheatsheets">Cheat‑Sheets</a>
+          </div>
+        </header>
+
+        <div class="container">
+          <section class="hero" id="home">
+            <h2>Data Structures & Algorithms — from Basics to Advanced</h2>
+            <p>
+              Learn with concise theory, code snippets, complexity notes, and
+              practice tasks. Navigate from core data structures to advanced
+              algorithms used in interviews and competitive programming.
+            </p>
+            <div class="toc" id="quickLinks"></div>
+          </section>
+
+          <section
+            id="content"
+            class="article"
+            style="margin-top: 16px"
+          ></section>
+
+          <footer>
+            © <span id="year"></span> DSA Learning Portal. Built with ♥ in
+            vanilla HTML/CSS/JS.
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // ------- Data Model (Basics → Advanced) -------
+      const curriculum = [
+        {
+          section: "Foundations",
+          topics: [
+            {
+              id: "intro",
+              title: "Introduction & Big‑O",
+              level: "Basic",
+              content: `
+              <div class="note">
+                <strong>What is DSA?</strong> Data Structures organize data; Algorithms operate on them. Goal: write correct, efficient code.
+              </div>
+              <h3>Asymptotic Analysis</h3>
+              <ul>
+                <li><b>Big‑O</b>: upper bound (worst‑case growth).</li>
+                <li><b>Ω</b>: lower bound; <b>Θ</b>: tight bound.</li>
+                <li>Common orders: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ) < O(n!).</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// Example: find max (O(n))
+function max(arr){
+  let m = -Infinity;
+  for(const x of arr) if(x>m) m=x;
+  return m;
+}
+</code></pre>
+              <div class="note success">Tip: Prefer O(n log n) or better for large inputs; avoid O(n²)+ on big n unless constraints allow.</div>
+            `,
+            },
+            {
+              id: "arrays",
+              title: "Arrays & Two‑Pointers",
+              level: "Basic",
+              content: `
+              <p>Static contiguous storage. Random access O(1). Insert/delete middle O(n).</p>
+              <h3>Patterns</h3>
+              <ul>
+                <li>Sliding Window</li>
+                <li>Two Pointers (sorted arrays)</li>
+                <li>Prefix/Suffix sums</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// Sliding window: longest subarray with sum ≤ k (non‑negatives)
+function longestUnderK(nums,k){
+  let i=0,sum=0,ans=0;
+  for(let j=0;j<nums.length;j++){
+    sum+=nums[j];
+    while(sum>k) sum-=nums[i++];
+    ans=Math.max(ans,j-i+1);
+  }
+  return ans;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "linked-lists",
+              title: "Linked Lists",
+              level: "Basic",
+              content: `
+              <p>Nodes with <code>value,next</code>. Pros: O(1) insert/delete at head; Cons: no random access.</p>
+              <ul><li>Fast/Slow pointers</li><li>Cycle detection (Floyd)</li><li>Reverse list</li></ul>
+              <pre><button class='copy'>Copy</button><code>// Reverse linked list (iterative)
+function reverse(head){
+  let prev=null, cur=head;
+  while(cur){
+    const nxt=cur.next;
+    cur.next=prev; prev=cur; cur=nxt;
+  }
+  return prev;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "stacks-queues",
+              title: "Stacks & Queues",
+              level: "Basic",
+              content: `
+              <p>Stack: LIFO; Queue: FIFO. Use arrays/deques. Monotonic stack solves next/prev greater problems.</p>
+              <pre><button class='copy'>Copy</button><code>// Next greater element using monotonic stack (O(n))
+function nextGreater(a){
+  const n=a.length, ans=Array(n).fill(-1), st=[];
+  for(let i=0;i<n;i++){
+    while(st.length && a[st[st.length-1]]<a[i]) ans[st.pop()]=i;
+    st.push(i);
+  }
+  return ans;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "hashing",
+              title: "Hashing & Maps",
+              level: "Basic",
+              content: `
+              <p>Average O(1) insert/lookup. Handle collisions (chaining, open addressing). Beware worst‑case O(n).</p>
+              <div class="note warn">Use good hash functions; in interviews rely on built‑in <code>Map/Set</code>.</div>
+            `,
+            },
+            {
+              id: "recursion",
+              title: "Recursion & Backtracking",
+              level: "Intermediate",
+              content: `
+              <ul>
+                <li>Base case, progress, no overlap → simple recursion</li>
+                <li>Try/undo/try‑next → backtracking (search trees)</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// N‑Queens count (backtracking)
+function totalNQueens(n){
+  let ans=0; const col=new Set(), d1=new Set(), d2=new Set();
+  function dfs(r){
+    if(r===n){ ans++; return; }
+    for(let c=0;c<n;c++) if(!col.has(c)&&!d1.has(r-c)&&!d2.has(r+c)){
+      col.add(c); d1.add(r-c); d2.add(r+c);
+      dfs(r+1);
+      col.delete(c); d1.delete(r-c); d2.delete(r+c);
+    }
+  }
+  dfs(0); return ans;
+}
+</code></pre>
+            `,
+            },
+          ],
+        },
+        {
+          section: "Core Structures",
+          topics: [
+            {
+              id: "trees",
+              title: "Trees & BST",
+              level: "Intermediate",
+              content: `
+              <p>Tree: acyclic connected graph. Traversals: DFS (pre/in/post), BFS (level‑order).</p>
+              <ul><li>BST: left < root < right</li><li>Balanced trees keep O(log n)</li></ul>
+              <pre><button class='copy'>Copy</button><code>// Inorder traversal (iterative)
+function inorder(root){
+  const st=[], out=[]; let cur=root;
+  while(cur||st.length){
+    while(cur){ st.push(cur); cur=cur.left; }
+    cur=st.pop(); out.push(cur.val); cur=cur.right;
+  }
+  return out;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "heap",
+              title: "Heaps / Priority Queue",
+              level: "Intermediate",
+              content: `
+              <p>Binary heap supports <code>push/pop</code> in O(log n). Useful for Dijkstra, scheduling, top‑k.</p>
+              <pre><button class='copy'>Copy</button><code>// Min‑heap (array)
+class MinHeap{
+  constructor(){this.a=[]}
+  push(x){ this.a.push(x); this._up(this.a.length-1); }
+  pop(){ if(!this.a.length) return undefined; const r=this.a[0];
+    const x=this.a.pop(); if(this.a.length){ this.a[0]=x; this._down(0);} return r; }
+  _up(i){ while(i){ const p=(i-1>>1); if(this.a[p]<=this.a[i]) break; [this.a[p],this.a[i]]=[this.a[i],this.a[p]]; i=p; }
+  _down(i){ for(;;){ let l=i*2+1,r=i*2+2,s=i; if(l<this.a.length&&this.a[l]<this.a[s]) s=l; if(r<this.a.length&&this.a[r]<this.a[s]) s=r; if(s===i) break; [this.a[s],this.a[i]]=[this.a[i],this.a[s]]; i=s; }
+  }
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "trie",
+              title: "Trie (Prefix Tree)",
+              level: "Intermediate",
+              content: `
+              <p>Stores strings by characters; prefix queries O(L). Useful for autocomplete, word break, XOR basis (bit tries).</p>
+              <pre><button class='copy'>Copy</button><code>// Simple Trie
+class Trie{
+  constructor(){ this.root = {}; }
+  insert(w){ let t=this.root; for(const ch of w){ t=t[ch]||(t[ch]={}); } t.$=true; }
+  search(w){ let t=this.root; for(const ch of w){ if(!t[ch]) return false; t=t[ch]; } return !!t.$; }
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "disjoint-set",
+              title: "Disjoint Set (Union‑Find)",
+              level: "Intermediate",
+              content: `
+              <p>Support <em>find</em> with path compression and <em>union by rank/size</em> → almost O(1) amortized.</p>
+              <pre><button class='copy'>Copy</button><code>// DSU
+class DSU{
+  constructor(n){ this.p=Array(n).fill(0).map((_,i)=>i); this.sz=Array(n).fill(1); }
+  find(x){ return this.p[x]===x?x:(this.p[x]=this.find(this.p[x])); }
+  union(a,b){ a=this.find(a); b=this.find(b); if(a===b) return false; if(this.sz[a]<this.sz[b]) [a,b]=[b,a]; this.p[b]=a; this.sz[a]+=this.sz[b]; return true; }
+}
+</code></pre>
+            `,
+            },
+          ],
+        },
+        {
+          section: "Graph Algorithms",
+          topics: [
+            {
+              id: "graph-basics",
+              title: "Graphs: BFS/DFS, Toposort",
+              level: "Intermediate",
+              content: `
+              <p>Represent with adjacency list. BFS for shortest path in unweighted graphs; DFS for components; topological sort for DAGs.</p>
+              <pre><button class='copy'>Copy</button><code>// BFS shortest path in unweighted graph
+function bfs(adj, s){
+  const n=adj.length, dist=Array(n).fill(Infinity); dist[s]=0;
+  const q=[s]; for(let i=0;i<q.length;i++){
+    const u=q[i];
+    for(const v of adj[u]) if(dist[v]===Infinity){ dist[v]=dist[u]+1; q.push(v); }
+  }
+  return dist;
+}
+</code></pre>
+              <pre><button class='copy'>Copy</button><code>// Kahn's topological sort
+function topo(adj){
+  const n=adj.length, indeg=Array(n).fill(0);
+  for(let u=0;u<n;u++) for(const v of adj[u]) indeg[v]++;
+  const q=[], order=[]; for(let i=0;i<n;i++) if(indeg[i]===0) q.push(i);
+  for(let i=0;i<q.length;i++){
+    const u=q[i]; order.push(u);
+    for(const v of adj[u]) if(--indeg[v]===0) q.push(v);
+  }
+  return order.length===n?order:null;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "shortest-paths",
+              title: "Dijkstra / Bellman‑Ford / Floyd‑Warshall",
+              level: "Advanced",
+              content: `
+              <ul>
+                <li><b>Dijkstra</b>: non‑negative weights (O((n+m) log n)).</li>
+                <li><b>Bellman‑Ford</b>: handles negatives (O(nm)).</li>
+                <li><b>Floyd‑Warshall</b>: all‑pairs DP (O(n³)).</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// Dijkstra using MinHeap
+function dijkstra(adj, s){
+  const n=adj.length, dist=Array(n).fill(Infinity); dist[s]=0; const pq=new MinHeap();
+  pq.push([0,s]);
+  while(pq.a.length){
+    const [d,u]=pq.pop(); if(d!==dist[u]) continue;
+    for(const [v,w] of adj[u]) if(dist[v]>d+w){ dist[v]=d+w; pq.push([dist[v],v]); }
+  }
+  return dist;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "mst",
+              title: "Minimum Spanning Tree (Kruskal/Prim)",
+              level: "Advanced",
+              content: `
+              <p>Build a minimum total weight tree connecting all nodes.</p>
+              <ul><li>Kruskal: sort edges + DSU</li><li>Prim: grow from a node using PQ</li></ul>
+              <pre><button class='copy'>Copy</button><code>// Kruskal
+function kruskal(n, edges){ // edges: [w,u,v]
+  edges.sort((a,b)=>a[0]-b[0]); const dsu=new DSU(n); let wsum=0, used=0;
+  for(const [w,u,v] of edges){ if(dsu.union(u,v)){ wsum+=w; used++; if(used===n-1) break; } }
+  return used===n-1?wsum:null;
+}
+</code></pre>
+            `,
+            },
+          ],
+        },
+        {
+          section: "Algorithmic Paradigms",
+          topics: [
+            {
+              id: "sorting",
+              title: "Sorting & Binary Search",
+              level: "Basic",
+              content: `
+              <ul>
+                <li>Mergesort / Heapsort: O(n log n)</li>
+                <li>Quicksort: average O(n log n), worst O(n²), in‑place</li>
+                <li>Binary search on value/answer</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// Binary search (first ≥ target)
+function lowerBound(a, t){
+  let l=0,r=a.length; while(l<r){ const m=(l+r>>1); if(a[m]<t) l=m+1; else r=m; } return l;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "dp",
+              title: "Dynamic Programming",
+              level: "Advanced",
+              content: `
+              <p>Overlapping subproblems + optimal substructure. Approaches: memoization (top‑down) and tabulation (bottom‑up).</p>
+              <pre><button class='copy'>Copy</button><code>// 0/1 Knapsack (tabulation)
+function knapsack(W, wt, val){
+  const n=wt.length; const dp=Array(n+1).fill(0).map(()=>Array(W+1).fill(0));
+  for(let i=1;i<=n;i++) for(let w=0; w<=W; w++){
+    dp[i][w]=dp[i-1][w];
+    if(w>=wt[i-1]) dp[i][w]=Math.max(dp[i][w], dp[i-1][w-wt[i-1]]+val[i-1]);
+  }
+  return dp[n][W];
+}
+</code></pre>
+              <div class="note">DP patterns: LIS, knapsack, paths on grid, edit distance, tree DP, digit DP, bitmask DP.</div>
+            `,
+            },
+            {
+              id: "greedy",
+              title: "Greedy",
+              level: "Intermediate",
+              content: `
+              <p>Make locally optimal choices that lead to global optimum. Prove via exchange argument or matroid structure.</p>
+              <pre><button class='copy'>Copy</button><code>// Activity selection (max non‑overlapping intervals)
+function maxIntervals(intervals){
+  intervals.sort((a,b)=>a[1]-b[1]);
+  let cnt=0, end=-Infinity; for(const [s,e] of intervals){ if(s>=end){ cnt++; end=e; } }
+  return cnt;
+}
+</code></pre>
+            `,
+            },
+          ],
+        },
+        {
+          section: "Strings & Advanced Topics",
+          topics: [
+            {
+              id: "strings",
+              title: "String Algorithms (KMP, Z, RK)",
+              level: "Advanced",
+              content: `
+              <ul>
+                <li><b>KMP</b>: prefix function; linear time pattern search</li>
+                <li><b>Z‑algorithm</b>: Z box for pattern matching</li>
+                <li><b>Rabin‑Karp</b>: rolling hash for multiple pattern search</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// KMP prefix function
+function prefix(s){
+  const n=s.length, pi=Array(n).fill(0); let j=0;
+  for(let i=1;i<n;i++){
+    while(j && s[i]!==s[j]) j=pi[j-1];
+    if(s[i]===s[j]) j++;
+    pi[i]=j;
+  }
+  return pi;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "range-structures",
+              title: "Fenwick / Segment Tree",
+              level: "Advanced",
+              content: `
+              <p>Support range queries/updates in O(log n).</p>
+              <pre><button class='copy'>Copy</button><code>// Fenwick Tree (point add, prefix sum)
+class BIT{
+  constructor(n){ this.n=n; this.b=Array(n+1).fill(0); }
+  add(i,delta){ for(; i<=this.n; i+=i&-i) this.b[i]+=delta; }
+  sum(i){ let s=0; for(; i>0; i-=i&-i) s+=this.b[i]; return s; }
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "geometry",
+              title: "Computational Geometry (Basics)",
+              level: "Advanced",
+              content: `
+              <ul>
+                <li>Orientation (ccw), segment intersection</li>
+                <li>Convex hull (Graham scan / Andrew monotone chain)</li>
+              </ul>
+              <pre><button class='copy'>Copy</button><code>// Cross product sign for ccw
+function cross(a,b,c){ return (b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x); }
+</code></pre>
+            `,
+            },
+            {
+              id: "complexity",
+              title: "Amortized Analysis",
+              level: "Advanced",
+              content: `
+              <p>Average cost over a sequence. Examples: dynamic array push, union‑find, splay trees, hash table resizing.</p>
+            `,
+            },
+          ],
+        },
+        {
+          section: "Practice & Resources",
+          topics: [
+            {
+              id: "practice",
+              title: "Practice Sets",
+              level: "All",
+              content: `
+              <p>Try implementing each data structure from scratch and solve these patterns:</p>
+              <ul>
+                <li>Two pointers & sliding window (10 problems)</li>
+                <li>Stack monotonic patterns (8 problems)</li>
+                <li>Graph traversal & shortest paths (12 problems)</li>
+                <li>DP classics: LIS, knapsack variants, grid paths (15 problems)</li>
+                <li>String matching: KMP/RK/Z (6 problems)</li>
+              </ul>
+              <div class="note success">Pro tip: track your solutions with time/space complexities and edge cases.</div>
+            `,
+            },
+            {
+              id: "cheatsheets",
+              title: "Cheat‑Sheets & Templates",
+              level: "All",
+              content: `
+              <div class="grid">
+                <div class="card"><h3>Complexities</h3><p>Quick lookup for operations.</p></div>
+                <div class="card"><h3>Graph Patterns</h3><p>BFS/DFS, topo, MST, shortest paths.</p></div>
+                <div class="card"><h3>DP Patterns</h3><p>Knapsack, LIS, partitions, bitmask DP.</p></div>
+              </div>
+              <pre><button class='copy'>Copy</button><code>// Template: BFS grid (4‑dir)
+const DIR=[[1,0],[-1,0],[0,1],[0,-1]];
+function bfsGrid(g,sx,sy){
+  const n=g.length,m=g[0].length,dist=Array.from({length:n},()=>Array(m).fill(Infinity));
+  const q=[[sx,sy]]; dist[sx][sy]=0;
+  for(let i=0;i<q.length;i++){
+    const [x,y]=q[i];
+    for(const [dx,dy] of DIR){
+      const nx=x+dx, ny=y+dy;
+      if(nx>=0&&ny>=0&&nx<n&&ny<m && g[nx][ny]!=="#" && dist[nx][ny]===Infinity){
+        dist[nx][ny]=dist[x][y]+1; q.push([nx,ny]);
+      }
+    }
+  }
+  return dist;
+}
+</code></pre>
+            `,
+            },
+            {
+              id: "curriculum",
+              title: "Full Curriculum Map",
+              level: "All",
+              content: "", // will fill dynamically
+            },
+          ],
+        },
+      ];
+
+      // ------- Render Sidebar Navigation -------
+      function renderNav(filter = "") {
+        const nav = document.getElementById("nav");
+        nav.innerHTML = "";
+        for (const block of curriculum) {
+          const detailsEl = document.createElement("details");
+          detailsEl.open = true;
+          const sum = document.createElement("summary");
+          sum.textContent = block.section;
+          const list = document.createElement("div");
+          list.className = "topic-list";
+          for (const t of block.topics) {
+            if (
+              filter &&
+              !`${t.title} ${t.id} ${t.level}`
+                .toLowerCase()
+                .includes(filter.toLowerCase())
+            )
+              continue;
+            const item = document.createElement("div");
+            item.className = "topic";
+            item.dataset.to = t.id;
+            item.innerHTML = `<span>${t.title}</span><span class='badge'>${t.level}</span>`;
+            item.addEventListener("click", () => navigate(t.id));
+            list.appendChild(item);
+          }
+          detailsEl.appendChild(sum);
+          detailsEl.appendChild(list);
+          nav.appendChild(detailsEl);
+        }
+      }
+
+      // ------- Routing & Content -------
+      function findTopicById(id) {
+        for (const b of curriculum)
+          for (const t of b.topics)
+            if (t.id === id) return { block: b, topic: t };
+        return null;
+      }
+
+      function navigate(id) {
+        const found = findTopicById(id) || findTopicById("intro");
+        const { block, topic } = found;
+        history.replaceState({}, "", `#${id}`);
+        document.getElementById(
+          "breadcrumbs"
+        ).textContent = `${block.section} › ${topic.title}`;
+        const el = document.getElementById("content");
+        el.innerHTML = `<article>${topic.content}</article>`;
+        attachCopyButtons();
+        closeSidebarOnMobile();
+        if (id === "curriculum") renderCurriculumMap();
+        if (id === "practice") injectPracticeHelper();
+        buildQuickLinks();
+      }
+
+      function buildQuickLinks() {
+        const ql = document.getElementById("quickLinks");
+        ql.innerHTML = "";
+        const keys = [
+          "intro",
+          "arrays",
+          "linked-lists",
+          "stacks-queues",
+          "trees",
+          "graph-basics",
+          "dp",
+          "strings",
+          "range-structures",
+          "practice",
+          "cheatsheets",
+        ];
+        for (const k of keys) {
+          const t = findTopicById(k).topic;
+          const a = document.createElement("a");
+          a.href = `#${k}`;
+          a.textContent = t.title;
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            navigate(k);
+          });
+          ql.appendChild(a);
+        }
+      }
+
+      function renderCurriculumMap() {
+        const el = document.getElementById("content");
+        let html = '<h2>Curriculum Map</h2><div class="grid">';
+        for (const b of curriculum) {
+          html += `<div class='card'><h3>${b.section}</h3><ul>`;
+          for (const t of b.topics) {
+            html += `<li><a href="#${t.id}">${t.title}</a> <span class='chip'>${t.level}</span></li>`;
+          }
+          html += "</ul></div>";
+        }
+        html += "</div>";
+        el.insertAdjacentHTML("beforeend", html);
+        el.querySelectorAll('a[href^="#"]').forEach((a) =>
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            navigate(a.getAttribute("href").slice(1));
+          })
+        );
+      }
+
+      // ------- Utilities -------
+      function attachCopyButtons() {
+        document.querySelectorAll(".copy").forEach((btn) => {
+          btn.onclick = async () => {
+            const code = btn.nextElementSibling.innerText;
+            try {
+              await navigator.clipboard.writeText(code);
+              btn.textContent = "Copied!";
+              setTimeout(() => (btn.textContent = "Copy"), 1200);
+            } catch {
+              btn.textContent = "Copy failed";
+              btn.style.borderColor = "var(--danger)";
+              setTimeout(() => {
+                btn.textContent = "Copy";
+                btn.style.borderColor = "var(--border)";
+              }, 1200);
+            }
+          };
+        });
+      }
+
+      function injectPracticeHelper() {
+        const el = document.getElementById("content");
+        const box = document.createElement("div");
+        box.className = "note";
+        box.innerHTML = `<h3>Random Practice Generator</h3>
+      <p>Get a random topic to implement now:</p>
+      <button class='btn' id='randBtn'>Give me a task</button>
+      <div id='taskOut' style='margin-top:8px;color:#d1fae5'></div>`;
+        el.appendChild(box);
+        const tasks = [
+          "Implement a MinHeap with decrease‑key.",
+          "Write iterative postorder traversal (1‑stack).",
+          "Solve Longest Increasing Subsequence in O(n log n).",
+          "Implement Kahn’s topological sort and detect cycle.",
+          "Add range add + point query using BIT variant.",
+          "Implement union‑find with rollback (offline).",
+          "Write KMP and test on 5 cases.",
+          "0/1 BFS for weights in {0,1}.",
+          "Binary search on answer: minimize max subarray sum with k splits.",
+          "Design a Trie that supports delete().",
+        ];
+        document.getElementById("randBtn").onclick = () => {
+          const t = tasks[Math.floor(Math.random() * tasks.length)];
+          document.getElementById("taskOut").textContent = "→ " + t;
+        };
+      }
+
+      // ------- Theme & Sidebar -------
+      const themeBtn = document.getElementById("themeBtn");
+      themeBtn.onclick = () => {
+        const dark = document.documentElement.dataset.theme !== "light";
+        if (dark) {
+          document.documentElement.dataset.theme = "light";
+          setLight();
+        } else {
+          document.documentElement.dataset.theme = "dark";
+          setDark();
+        }
+      };
+      function setLight() {
+        document.documentElement.style.setProperty("--bg", "#f4f6fb");
+        document.documentElement.style.setProperty("--bg-2", "#ffffff");
+        document.documentElement.style.setProperty("--surface", "#ffffff");
+        document.documentElement.style.setProperty("--text", "#0b1220");
+        document.documentElement.style.setProperty("--muted", "#475569");
+        document.documentElement.style.setProperty("--border", "#e2e8f0");
+        document.documentElement.style.setProperty("--code-bg", "#f8fafc");
+        document.documentElement.style.setProperty("--code-border", "#e2e8f0");
+      }
+      function setDark() {
+        location.reload();
+      }
+
+      const menuBtn = document.getElementById("menuBtn");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      function openSidebar() {
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+      }
+      function closeSidebarOnMobile() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+      }
+      menuBtn.onclick = () => {
+        if (sidebar.classList.contains("open")) closeSidebarOnMobile();
+        else openSidebar();
+      };
+      overlay.onclick = closeSidebarOnMobile;
+
+      // ------- Search -------
+      const search = document.getElementById("search");
+      search.addEventListener("input", () => renderNav(search.value));
+      window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          search.focus();
+        }
+      });
+
+      // ------- Init -------
+      function init() {
+        renderNav();
+        buildQuickLinks();
+        document.getElementById("year").textContent = new Date().getFullYear();
+        const initial = location.hash ? location.hash.slice(1) : "intro";
+        navigate(initial);
+      }
+      init();
+    </script>
+  </body>
+</html>
