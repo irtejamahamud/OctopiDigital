@@ -234,6 +234,7 @@
             transparent
           );
         margin-top: 24px;
+        margin-bottom: 24px;
         box-shadow: var(--shadow);
         transition: box-shadow 0.18s;
       }
@@ -377,6 +378,65 @@
         grid-row: 1;
       }
 
+      /*card style*/
+      .card {
+        background: radial-gradient(
+            1200px 400px at 10% -20%,
+            rgba(79, 70, 229, 0.15),
+            transparent
+          ),
+          radial-gradient(
+            1000px 400px at 90% 120%,
+            rgba(34, 211, 238, 0.12),
+            transparent
+          );
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin: 16px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 6px solid #4a90e2; /* Default accent */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        font-size: 1.4em;
+        color: #fcfcfc;
+      }
+
+      .card ul {
+        padding-left: 18px;
+        margin: 10px 0 0;
+      }
+
+      .card ul li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+
+      /* Variant: Info Card */
+      .card.info {
+        border-left-color: #17a2b8;
+        background: #f8fcfd;
+      }
+
+      /* Variant: Success Card */
+      .card.success {
+        border-left-color: #28a745;
+        background: #f6fdf8;
+      }
+
+      /* Variant: Warning Card */
+      .card.warning {
+        border-left-color: #ffc107;
+        background: #fffdf6;
+      }
+
       /* Keep overlay out of the grid flow on desktop too */
       .overlay {
         position: fixed;
@@ -501,28 +561,111 @@
           topics: [
             {
               id: "intro",
-              title: "Introduction & Big‑O",
+              title: "Introduction & Big-O",
               level: "Basic",
               content: `
-              <div class="note">
-                <strong>What is DSA?</strong> Data Structures organize data; Algorithms operate on them. Goal: write correct, efficient code.
-              </div>
-              <h3>Asymptotic Analysis</h3>
-              <ul>
-                <li><b>Big‑O</b>: upper bound (worst‑case growth).</li>
-                <li><b>Ω</b>: lower bound; <b>Θ</b>: tight bound.</li>
-                <li>Common orders: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ) < O(n!).</li>
-              </ul>
-              <pre><button class='copy'>Copy</button><code>// Example: find max (O(n))
+<div class="note">
+  <strong>What is DSA?</strong> 
+  Data Structures organize data efficiently; Algorithms operate on them to solve problems. 
+  Goal: write correct, efficient, and maintainable code.
+</div>
+
+<div class="card">
+  <h3>Why Learn DSA?</h3>
+  <ul>
+    <li><b>Efficiency:</b> Optimize time and space usage for large inputs.</li>
+    <li><b>Problem Solving:</b> Forms the core of competitive programming and coding interviews.</li>
+    <li><b>Scalability:</b> Essential for building systems that handle millions of users.</li>
+    <li><b>Foundation:</b> Helps understand how frameworks, databases, and OS work internally.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>Applications of DSA in Real Life</h3>
+  <ul>
+    <li><b>Social Media:</b> Graphs for friend recommendations.</li>
+    <li><b>Search Engines:</b> Efficient searching and indexing using trees and hashing.</li>
+    <li><b>E-commerce:</b> Sorting algorithms for displaying products.</li>
+    <li><b>Navigation:</b> Shortest path algorithms for route planning.</li>
+  </ul>
+</div>
+
+
+  <h3>Asymptotic Analysis</h3>
+  <ul>
+    <li><b>Big-O (O)</b>: Upper bound — worst-case growth.</li>
+    <li><b>Omega (Ω)</b>: Lower bound — best-case growth.</li>
+    <li><b>Theta (Θ)</b>: Tight bound — when best and worst are same order.</li>
+    <li>Common growth rates: 
+      <code>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)</code>
+    </li>
+  </ul>
+
+  <h3>Why Complexity Matters?</h3>
+  <div class="note warning">
+    Time vs. Space trade-off: Sometimes we use more memory to gain speed (e.g., memoization).
+  </div>
+  <p>Analyze performance in terms of:</p>
+  <ul>
+    <li><b>Time Complexity:</b> How execution time grows with input size.</li>
+    <li><b>Space Complexity:</b> How extra memory usage grows with input size.</li>
+  </ul>
+
+  <h3>Best, Average & Worst Case</h3>
+  <ul>
+    <li><b>Best Case:</b> Minimal operations (e.g., searching first element).</li>
+    <li><b>Worst Case:</b> Maximum operations (e.g., searching last element or not found).</li>
+    <li><b>Average Case:</b> Expected operations for random input.</li>
+  </ul>
+
+  <h3>Common Complexities Table</h3>
+  <table border="1" cellpadding="5" style="border-collapse:collapse; width:100%">
+    <thead>
+      <tr>
+        <th>Complexity</th>
+        <th>Example Algorithm</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>O(1)</td><td>Accessing array element by index</td></tr>
+      <tr><td>O(log n)</td><td>Binary Search</td></tr>
+      <tr><td>O(n)</td><td>Linear Search, Traversing array</td></tr>
+      <tr><td>O(n log n)</td><td>Merge Sort, Quick Sort (avg)</td></tr>
+      <tr><td>O(n²)</td><td>Bubble Sort, Selection Sort</td></tr>
+      <tr><td>O(2ⁿ)</td><td>Recursive Fibonacci</td></tr>
+      <tr><td>O(n!)</td><td>Generating all permutations</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Example: Find Maximum (O(n))</h3>
+  <pre><button class='copy'>Copy</button><code>// Example: find max (O(n))
 function max(arr){
   let m = -Infinity;
   for(const x of arr) if(x>m) m=x;
   return m;
 }
 </code></pre>
-              <div class="note success">Tip: Prefer O(n log n) or better for large inputs; avoid O(n²)+ on big n unless constraints allow.</div>
-            `,
+
+  <h3>Example: Binary Search (O(log n))</h3>
+  <pre><button class='copy'>Copy</button><code>// Binary Search in sorted array
+function binarySearch(arr, target){
+  let l=0, r=arr.length-1;
+  while(l<=r){
+    const mid=Math.floor((l+r)/2);
+    if(arr[mid]===target) return mid;
+    if(arr[mid]<target) l=mid+1;
+    else r=mid-1;
+  }
+  return -1;
+}
+</code></pre>
+
+  <div class="note success">
+    Tip: For large inputs, aim for O(n log n) or better. Avoid O(n²)+ unless n is small.
+  </div>
+  `,
             },
+
             {
               id: "arrays",
               title: "Arrays & Two‑Pointers",
