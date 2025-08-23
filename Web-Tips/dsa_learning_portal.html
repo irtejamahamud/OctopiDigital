@@ -367,6 +367,29 @@
         color: var(--primary);
       }
 
+      /* Ensure proper grid placement */
+      .app > aside {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .app > main {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      /* Keep overlay out of the grid flow on desktop too */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        display: none;
+        z-index: 40;
+      }
+      .overlay.show {
+        display: block;
+      }
+
       @media (max-width: 900px) {
         .app {
           grid-template-columns: 1fr;
@@ -460,11 +483,7 @@
             <div class="toc" id="quickLinks"></div>
           </section>
 
-          <section
-            id="content"
-            class="article"
-            style="margin-top: 16px"
-          ></section>
+          <section id="content" class="article"></section>
 
           <footer>
             © <span id="year"></span> DSA Learning Portal. Built with ♥ in
