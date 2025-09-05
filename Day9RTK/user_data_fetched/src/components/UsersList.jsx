@@ -31,7 +31,7 @@ export default function UsersList() {
             {user.nationality}, Age {user.age}
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2">
-            {user.skills.map((skill) => (
+            {(Array.isArray(user.skills) ? user.skills : []).map((skill) => (
               <span
                 key={skill}
                 className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded"
